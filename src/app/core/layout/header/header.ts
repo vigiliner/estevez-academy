@@ -13,7 +13,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
           routerLink="/"
           class="flex items-center gap-2.5 rounded text-lg font-bold text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
         >
-          <img ngSrc="/logo-mark.svg" width="320" height="280" alt="" class="h-9 w-auto" />
+          <img ngSrc="logo-mark.svg" width="320" height="280" alt="" class="h-9 w-auto" />
           Estevez <span class="text-blue-700">Academy</span>
         </a>
         <nav aria-label="Principal">

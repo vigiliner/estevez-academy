@@ -7,7 +7,7 @@ const PRODUCTS: Product[] = [
     name: 'Vigiliner',
     shortDescription: 'Documentación funcional y técnica de Vigiliner.',
     status: 'en-progreso',
-    logoUrl: '/products/vigiliner.png',
+    logoUrl: 'products/vigiliner.png',
     logoWidth: 572,
     logoHeight: 375,
     functionalDoc: [
