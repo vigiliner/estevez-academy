@@ -6,6 +6,26 @@ export interface DocSection {
   readonly items?: readonly string[];
 }
 
+export interface ManualScreenshot {
+  readonly src: string;
+  readonly width: number;
+  readonly height: number;
+  readonly alt: string;
+}
+
+export interface ManualStep {
+  readonly title: string;
+  readonly description: readonly string[];
+  readonly screenshots?: readonly ManualScreenshot[];
+}
+
+export interface ManualRole {
+  readonly id: string;
+  readonly name: string;
+  readonly summary: string;
+  readonly steps: readonly ManualStep[];
+}
+
 export interface Product {
   readonly slug: string;
   readonly name: string;
@@ -16,6 +36,7 @@ export interface Product {
   readonly logoHeight: number;
   readonly functionalDoc: readonly DocSection[];
   readonly technicalDoc: readonly DocSection[];
+  readonly userManual: readonly ManualRole[];
 }
 
 export const PRODUCT_STATUS_LABELS: Record<ProductStatus, string> = {
