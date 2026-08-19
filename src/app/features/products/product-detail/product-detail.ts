@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { SidebarService } from '../../../core/layout/sidebar/sidebar.service';
 import { PRODUCT_STATUS_BADGE_CLASSES, PRODUCT_STATUS_LABELS } from '../../../shared/models/product.model';
+import { buildProductSidebarItems, docSectionId } from '../data/product-sidebar';
 import { ProductsService } from '../data/products.service';
 
 @Component({
@@ -12,6 +14,7 @@ import { ProductsService } from '../data/products.service';
 })
 export class ProductDetail {
   private readonly productsService = inject(ProductsService);
+  private readonly sidebarService = inject(SidebarService);
 
   readonly slug = input.required<string>();
 
@@ -24,4 +27,12 @@ export class ProductDetail {
     const product = this.product();
     return product ? PRODUCT_STATUS_BADGE_CLASSES[product.status] : '';
   });
+  protected readonly sectionId = docSectionId;
+
+  constructor() {
+    effect(() => {
+      const product = this.product();
+      this.sidebarService.setItems(product ? buildProductSidebarItems(product) : [], product?.name);
+    });
+  }
 }
