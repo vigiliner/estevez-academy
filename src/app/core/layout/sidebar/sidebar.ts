@@ -1,21 +1,37 @@
+import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SidebarIcon, SidebarItem } from '../../../shared/models/sidebar-item.model';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, NgTemplateOutlet],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
+    <ng-template #sectionIcon let-name="name">
+      @if (name) {
+        <svg
+          class="h-4 w-4 shrink-0 text-gray-400 transition-colors duration-150"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          aria-hidden="true"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="iconPath(name)" />
+        </svg>
+      }
+    </ng-template>
+
     <nav id="app-sidebar-nav" class="p-4" [attr.aria-label]="title() || 'Navegación secundaria'">
-      <div class="mb-2 flex items-center justify-between lg:hidden">
+      <div class="mb-3 flex items-center justify-between">
         @if (title()) {
-          <p class="px-2 text-xs font-semibold tracking-wide text-gray-500 uppercase">{{ title() }}</p>
+          <p class="px-2 text-xs font-semibold tracking-wider text-gray-400 uppercase">{{ title() }}</p>
         }
         <button
           type="button"
           (click)="closeRequested.emit()"
-          class="ml-auto rounded p-1.5 text-gray-500 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+          class="ml-auto rounded-md p-1.5 text-gray-500 transition-colors duration-150 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 lg:hidden"
           aria-label="Cerrar menú"
         >
           <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -23,29 +39,23 @@ import { SidebarIcon, SidebarItem } from '../../../shared/models/sidebar-item.mo
           </svg>
         </button>
       </div>
-      @if (title()) {
-        <p class="hidden px-2 text-xs font-semibold tracking-wide text-gray-500 uppercase lg:block">{{ title() }}</p>
-      }
-      <ul class="mt-2 space-y-1">
+      <div class="mx-2 mb-3 border-t border-gray-100"></div>
+      <ul class="space-y-0.5">
         @for (item of items(); track item.label) {
           <li>
             @if (item.children?.length) {
-              <p class="flex items-center gap-2 px-2 py-1.5 text-sm font-semibold text-gray-900">
-                @if (item.icon) {
-                  <svg class="h-4 w-4 shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="iconPath(item.icon)" />
-                  </svg>
-                }
+              <p class="mt-5 flex items-center gap-2.5 px-2 py-1 text-xs font-semibold tracking-wide text-gray-400 uppercase first:mt-0">
+                <ng-container [ngTemplateOutlet]="sectionIcon" [ngTemplateOutletContext]="{ name: item.icon }" />
                 {{ item.label }}
               </p>
-              <ul class="ml-2 space-y-1 border-l border-gray-200 pl-3">
+              <ul class="mt-1 ml-2 space-y-0.5 border-l border-gray-100 pl-3">
                 @for (child of item.children; track child.label) {
                   <li>
                     <a
                       [routerLink]="child.routerLink ?? []"
                       [fragment]="child.fragment"
                       (click)="closeRequested.emit()"
-                      class="block rounded px-2 py-1.5 text-sm text-gray-600 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+                      class="block rounded-md px-2.5 py-1.5 text-sm text-gray-600 transition-colors duration-150 hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
                     >
                       {{ child.label }}
                     </a>
@@ -59,14 +69,20 @@ import { SidebarIcon, SidebarItem } from '../../../shared/models/sidebar-item.mo
                 (click)="closeRequested.emit()"
                 routerLinkActive="bg-blue-50 text-blue-700"
                 [routerLinkActiveOptions]="{ exact: true }"
-                class="flex items-center gap-2 rounded px-2 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+                class="group flex items-center gap-2.5 rounded-md px-2.5 py-2 text-sm font-medium text-gray-700 transition-colors duration-150 hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
               >
-                @if (item.icon) {
-                  <svg class="h-4 w-4 shrink-0 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" [attr.d]="iconPath(item.icon)" />
-                  </svg>
-                }
-                {{ item.label }}
+                <ng-container [ngTemplateOutlet]="sectionIcon" [ngTemplateOutletContext]="{ name: item.icon }" />
+                <span class="truncate">{{ item.label }}</span>
+                <svg
+                  class="ml-auto h-4 w-4 shrink-0 text-gray-300 transition-all duration-150 group-hover:translate-x-0.5 group-hover:text-gray-400"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  aria-hidden="true"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                </svg>
               </a>
             }
           </li>

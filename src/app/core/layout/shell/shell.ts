@@ -16,10 +16,10 @@ import { SidebarService } from '../sidebar/sidebar.service';
     >
       Saltar al contenido principal
     </a>
-    <div class="flex min-h-screen flex-col bg-gray-50">
-      <app-header />
+    <div class="flex h-screen flex-col overflow-hidden bg-gray-50">
+      <app-header class="shrink-0" />
       @if (sidebarService.items().length) {
-        <div class="border-b border-gray-200 bg-white px-4 py-2 lg:hidden">
+        <div class="shrink-0 border-b border-gray-200 bg-white px-4 py-2 lg:hidden">
           <button
             type="button"
             (click)="mobileSidebarOpen.set(true)"
@@ -34,11 +34,11 @@ import { SidebarService } from '../sidebar/sidebar.service';
           </button>
         </div>
       }
-      <div class="flex flex-1 items-start">
+      <div class="flex min-h-0 flex-1 items-stretch">
         @if (mobileSidebarOpen()) {
           <div
             (click)="mobileSidebarOpen.set(false)"
-            class="fixed inset-0 z-30 bg-gray-900/50 lg:hidden"
+            class="fixed inset-0 z-30 bg-gray-900/40 backdrop-blur-sm lg:hidden"
             aria-hidden="true"
           ></div>
         }
@@ -46,15 +46,15 @@ import { SidebarService } from '../sidebar/sidebar.service';
           [title]="sidebarService.title()"
           [items]="sidebarService.items()"
           (closeRequested)="mobileSidebarOpen.set(false)"
-          class="fixed inset-y-0 left-0 z-40 w-72 overflow-y-auto bg-white shadow-xl transition-transform duration-200 ease-in-out lg:sticky lg:top-0 lg:z-auto lg:h-screen lg:w-64 lg:shrink-0 lg:translate-x-0 lg:border-r lg:border-gray-200 lg:shadow-none"
+          class="fixed inset-y-0 left-0 z-40 w-72 overflow-y-auto bg-white shadow-lg transition-transform duration-300 ease-out lg:static lg:z-auto lg:h-full lg:w-64 lg:shrink-0 lg:translate-x-0 lg:border-r lg:border-gray-200 lg:shadow-none"
           [class.translate-x-0]="mobileSidebarOpen()"
           [class.-translate-x-full]="!mobileSidebarOpen()"
         />
-        <main id="main-content" class="min-w-0 flex-1">
+        <main id="main-content" class="min-w-0 flex-1 overflow-y-auto">
           <router-outlet />
         </main>
       </div>
-      <app-footer />
+      <app-footer class="shrink-0" />
     </div>
   `,
 })
