@@ -36,16 +36,23 @@
       <div class="mt-10 space-y-16">
         @for (role of product.userManual; track role.id) {
           <section [id]="'rol-' + role.id" [attr.aria-labelledby]="'rol-heading-' + role.id" class="scroll-mt-6">
-            <h2 [id]="'rol-heading-' + role.id" class="text-2xl font-bold text-gray-900">{{ role.name }}</h2>
-            <p class="mt-2 text-gray-600">{{ role.summary }}</p>
+            <h2
+              [id]="'rol-heading-' + role.id"
+              class="text-2xl font-bold text-gray-900"
+              [innerHTML]="role.name | highlight: searchService.activeTerm()"
+            ></h2>
+            <p class="mt-2 text-gray-600" [innerHTML]="role.summary | highlight: searchService.activeTerm()"></p>
 
             @if (role.steps.length) {
               <div class="mt-8 space-y-12">
                 @for (step of role.steps; track step.title) {
                   <div>
-                    <h3 class="text-lg font-semibold text-gray-900">{{ step.title }}</h3>
+                    <h3
+                      class="text-lg font-semibold text-gray-900"
+                      [innerHTML]="step.title | highlight: searchService.activeTerm()"
+                    ></h3>
                     @for (paragraph of step.description; track paragraph) {
-                      <p class="mt-2 text-gray-600">{{ paragraph }}</p>
+                      <p class="mt-2 text-gray-600" [innerHTML]="paragraph | highlight: searchService.activeTerm()"></p>
                     }
                     @if (step.screenshots?.length) {
                       <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">

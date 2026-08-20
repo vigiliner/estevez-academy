@@ -5,6 +5,8 @@ import { Header } from '../header/header';
 import { Sidebar } from '../sidebar/sidebar';
 import { SidebarService } from '../sidebar/sidebar.service';
 
+const SCROLL_ELEVATION_THRESHOLD = 8;
+
 @Component({
   selector: 'app-shell',
   imports: [RouterOutlet, Header, Footer, Sidebar],
@@ -17,7 +19,7 @@ import { SidebarService } from '../sidebar/sidebar.service';
       Saltar al contenido principal
     </a>
     <div class="flex h-screen flex-col overflow-hidden bg-gray-50">
-      <app-header class="shrink-0" />
+      <app-header class="shrink-0" [scrolled]="mainScrolled()" />
       @if (sidebarService.items().length) {
         <div class="shrink-0 border-b border-gray-200 bg-white px-4 py-2 lg:hidden">
           <button
@@ -50,7 +52,7 @@ import { SidebarService } from '../sidebar/sidebar.service';
           [class.translate-x-0]="mobileSidebarOpen()"
           [class.-translate-x-full]="!mobileSidebarOpen()"
         />
-        <main id="main-content" class="min-w-0 flex-1 overflow-y-auto">
+        <main id="main-content" class="min-w-0 flex-1 overflow-y-auto" (scroll)="onMainScroll($event)">
           <router-outlet />
         </main>
       </div>
@@ -61,4 +63,10 @@ import { SidebarService } from '../sidebar/sidebar.service';
 export class Shell {
   protected readonly sidebarService = inject(SidebarService);
   protected readonly mobileSidebarOpen = signal(false);
+  protected readonly mainScrolled = signal(false);
+
+  protected onMainScroll(event: Event): void {
+    const scrollTop = (event.target as HTMLElement).scrollTop;
+    this.mainScrolled.set(scrollTop > SCROLL_ELEVATION_THRESHOLD);
+  }
 }

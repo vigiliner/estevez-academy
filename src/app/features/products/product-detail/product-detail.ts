@@ -2,19 +2,22 @@ import { ChangeDetectionStrategy, Component, computed, effect, inject, input } f
 import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { SidebarService } from '../../../core/layout/sidebar/sidebar.service';
+import { SearchService } from '../../../core/search/search.service';
+import { HighlightPipe } from '../../../shared/pipes/highlight.pipe';
 import { PRODUCT_STATUS_BADGE_CLASSES, PRODUCT_STATUS_LABELS } from '../../../shared/models/product.model';
 import { buildProductSidebarItems, docSectionId } from '../data/product-sidebar';
 import { ProductsService } from '../data/products.service';
 
 @Component({
   selector: 'app-product-detail',
-  imports: [RouterLink, NgOptimizedImage],
+  imports: [RouterLink, NgOptimizedImage, HighlightPipe],
   templateUrl: './product-detail.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductDetail {
   private readonly productsService = inject(ProductsService);
   private readonly sidebarService = inject(SidebarService);
+  protected readonly searchService = inject(SearchService);
 
   readonly slug = input.required<string>();
 

@@ -39,14 +39,14 @@
         <div class="mt-4 space-y-6">
           @for (section of product.functionalDoc; track section.title) {
             <div [id]="sectionId('func', section.title)" class="scroll-mt-6">
-              <h3 class="text-base font-semibold text-gray-900">{{ section.title }}</h3>
+              <h3 class="text-base font-semibold text-gray-900" [innerHTML]="section.title | highlight: searchService.activeTerm()"></h3>
               @for (paragraph of section.paragraphs; track paragraph) {
-                <p class="mt-2 text-gray-600">{{ paragraph }}</p>
+                <p class="mt-2 text-gray-600" [innerHTML]="paragraph | highlight: searchService.activeTerm()"></p>
               }
               @if (section.items?.length) {
                 <ul class="mt-2 list-disc space-y-1 pl-5 text-gray-600">
                   @for (item of section.items; track item) {
-                    <li>{{ item }}</li>
+                    <li [innerHTML]="item | highlight: searchService.activeTerm()"></li>
                   }
                 </ul>
               }
@@ -66,14 +66,14 @@
         <div class="mt-4 space-y-6">
           @for (section of product.technicalDoc; track section.title) {
             <div [id]="sectionId('tec', section.title)" class="scroll-mt-6">
-              <h3 class="text-base font-semibold text-gray-900">{{ section.title }}</h3>
+              <h3 class="text-base font-semibold text-gray-900" [innerHTML]="section.title | highlight: searchService.activeTerm()"></h3>
               @for (paragraph of section.paragraphs; track paragraph) {
-                <p class="mt-2 text-gray-600">{{ paragraph }}</p>
+                <p class="mt-2 text-gray-600" [innerHTML]="paragraph | highlight: searchService.activeTerm()"></p>
               }
               @if (section.items?.length) {
                 <ul class="mt-2 list-disc space-y-1 pl-5 text-gray-600">
                   @for (item of section.items; track item) {
-                    <li>{{ item }}</li>
+                    <li [innerHTML]="item | highlight: searchService.activeTerm()"></li>
                   }
                 </ul>
               }

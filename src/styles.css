@@ -1,3 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+
+@keyframes dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-dropdown-in {
+    animation: dropdown-in 150ms ease-out;
+  }
+}
