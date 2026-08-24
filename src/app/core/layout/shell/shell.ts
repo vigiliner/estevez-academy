@@ -14,20 +14,20 @@ const SCROLL_ELEVATION_THRESHOLD = 8;
   template: `
     <a
       href="#main-content"
-      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-white focus:px-4 focus:py-2 focus:shadow"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-surface focus:px-4 focus:py-2 focus:shadow"
     >
       Saltar al contenido principal
     </a>
-    <div class="flex h-screen flex-col overflow-hidden bg-gray-50">
+    <div class="flex h-screen flex-col overflow-hidden bg-canvas">
       <app-header class="shrink-0" [scrolled]="mainScrolled()" />
       @if (sidebarService.items().length) {
-        <div class="shrink-0 border-b border-gray-200 bg-white px-4 py-2 lg:hidden">
+        <div class="shrink-0 border-b border-border bg-surface px-4 py-2 lg:hidden">
           <button
             type="button"
             (click)="mobileSidebarOpen.set(true)"
             aria-controls="app-sidebar-nav"
             [attr.aria-expanded]="mobileSidebarOpen()"
-            class="inline-flex items-center gap-2 rounded px-2 py-1.5 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+            class="inline-flex items-center gap-2 rounded px-2 py-1.5 text-sm font-medium text-body hover:bg-surface-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
           >
             <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
@@ -48,7 +48,7 @@ const SCROLL_ELEVATION_THRESHOLD = 8;
           [title]="sidebarService.title()"
           [items]="sidebarService.items()"
           (closeRequested)="mobileSidebarOpen.set(false)"
-          class="fixed inset-y-0 left-0 z-40 w-72 overflow-y-auto bg-white shadow-lg transition-transform duration-300 ease-out lg:static lg:z-auto lg:h-full lg:w-64 lg:shrink-0 lg:translate-x-0 lg:border-r lg:border-gray-200 lg:shadow-none"
+          class="fixed inset-y-0 left-0 z-40 w-72 overflow-y-auto bg-surface shadow-lg transition-transform duration-300 ease-out lg:static lg:z-auto lg:h-full lg:w-64 lg:shrink-0 lg:translate-x-0 lg:border-r lg:border-border lg:shadow-none"
           [class.translate-x-0]="mobileSidebarOpen()"
           [class.-translate-x-full]="!mobileSidebarOpen()"
         />

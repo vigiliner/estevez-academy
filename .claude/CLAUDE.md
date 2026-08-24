@@ -28,6 +28,21 @@ Estado MVP de Vigiliner (a la fecha del último relevamiento):
   - `shared`: componentes UI reutilizables, modelos, pipes, utils.
 - Esta app en sí no tiene auth/roles — es contenido estático accesible a cualquier visitante (los roles descritos son los de Vigiliner, el producto documentado, no de la Academy).
 
+### Theming (claro/oscuro)
+
+La plataforma tiene un toggle de tema claro/oscuro global (icono en el navbar, siempre visible). Implementación:
+
+- `core/theme/theme.service.ts` (`ThemeService`, `providedIn: 'root'`) es la única fuente de verdad del tema: signal `theme`, `toggle()`/`setTheme()`, persiste en `localStorage` y aplica la clase `dark` en `<html>` vía `effect()`.
+- `shared/ui/theme-toggle/theme-toggle.ts` es el botón reutilizable — solo llama a `themeService.toggle()`, no mantiene estado propio.
+- Los colores están centralizados como **CSS custom properties** en `src/styles.css` (bloque `@theme` + overrides en `.dark`), no como pares `clase dark:clase` repetidos por componente. Al escribir templates, usar las clases semánticas en vez de grises/azules crudos de Tailwind:
+  - `bg-canvas` — fondo general de la app (fuera de tarjetas/paneles)
+  - `bg-surface` / `bg-surface-alt` / `bg-surface-hover` — fondo de tarjetas, header, sidebar, dropdowns / paneles e inputs / hover de filas y botones
+  - `border-border` / `border-border-subtle` — bordes por defecto / divisores sutiles
+  - `text-heading` / `text-body` / `text-muted` / `text-subtle` / `text-faint` — jerarquía de texto, de más a menos prominente
+  - `text-accent` / `bg-accent-muted` — links y estado activo / fondo de item activo
+  - Los badges de estado (`product.model.ts`, `search.ts`) y el resaltado de búsqueda (`highlight.pipe.ts`) sí usan `dark:` explícito porque son colores semánticos por tipo (verde/ámbar/azul/morado), no neutros de la interfaz — y ya están centralizados en una única constante cada uno, así que no hace falta tokenizarlos.
+  - Un componente nuevo que use estas clases semánticas ya soporta ambos temas automáticamente, sin necesitar `dark:` en el template.
+
 Este proyecto no está documentado de forma general en ningún otro lado (el `README.md` es el boilerplate por defecto de Angular CLI), así que esta sección es la fuente de verdad para orientarse rápido.
 
 ---

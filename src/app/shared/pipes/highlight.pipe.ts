@@ -2,7 +2,7 @@ import { Pipe, PipeTransform, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 const MIN_TERM_LENGTH = 2;
-const MARK_CLASS = 'rounded-sm bg-amber-200 px-0.5 text-inherit';
+const MARK_CLASS = 'rounded-sm bg-amber-200 px-0.5 text-inherit dark:bg-amber-700/60';
 
 function escapeHtml(value: string): string {
   return value

@@ -11,7 +11,7 @@ import { SidebarIcon, SidebarItem } from '../../../shared/models/sidebar-item.mo
     <ng-template #sectionIcon let-name="name">
       @if (name) {
         <svg
-          class="h-4 w-4 shrink-0 text-gray-400 transition-colors duration-150"
+          class="h-4 w-4 shrink-0 text-subtle transition-colors duration-150"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -26,12 +26,12 @@ import { SidebarIcon, SidebarItem } from '../../../shared/models/sidebar-item.mo
     <nav id="app-sidebar-nav" class="p-4" [attr.aria-label]="title() || 'Navegación secundaria'">
       <div class="mb-3 flex items-center justify-between">
         @if (title()) {
-          <p class="px-2 text-xs font-semibold tracking-wider text-gray-400 uppercase">{{ title() }}</p>
+          <p class="px-2 text-xs font-semibold tracking-wider text-subtle uppercase">{{ title() }}</p>
         }
         <button
           type="button"
           (click)="closeRequested.emit()"
-          class="ml-auto rounded-md p-1.5 text-gray-500 transition-colors duration-150 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 lg:hidden"
+          class="ml-auto rounded-md p-1.5 text-muted transition-colors duration-150 hover:bg-surface-hover hover:text-heading focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 lg:hidden"
           aria-label="Cerrar menú"
         >
           <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -39,23 +39,23 @@ import { SidebarIcon, SidebarItem } from '../../../shared/models/sidebar-item.mo
           </svg>
         </button>
       </div>
-      <div class="mx-2 mb-3 border-t border-gray-100"></div>
+      <div class="mx-2 mb-3 border-t border-border-subtle"></div>
       <ul class="space-y-0.5">
         @for (item of items(); track item.label) {
           <li>
             @if (item.children?.length) {
-              <p class="mt-5 flex items-center gap-2.5 px-2 py-1 text-xs font-semibold tracking-wide text-gray-400 uppercase first:mt-0">
+              <p class="mt-5 flex items-center gap-2.5 px-2 py-1 text-xs font-semibold tracking-wide text-subtle uppercase first:mt-0">
                 <ng-container [ngTemplateOutlet]="sectionIcon" [ngTemplateOutletContext]="{ name: item.icon }" />
                 {{ item.label }}
               </p>
-              <ul class="mt-1 ml-2 space-y-0.5 border-l border-gray-100 pl-3">
+              <ul class="mt-1 ml-2 space-y-0.5 border-l border-border-subtle pl-3">
                 @for (child of item.children; track child.label) {
                   <li>
                     <a
                       [routerLink]="child.routerLink ?? []"
                       [fragment]="child.fragment"
                       (click)="closeRequested.emit()"
-                      class="block rounded-md px-2.5 py-1.5 text-sm text-gray-600 transition-colors duration-150 hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+                      class="block rounded-md px-2.5 py-1.5 text-sm text-body transition-colors duration-150 hover:bg-surface-hover hover:text-heading focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
                     >
                       {{ child.label }}
                     </a>
@@ -67,14 +67,14 @@ import { SidebarIcon, SidebarItem } from '../../../shared/models/sidebar-item.mo
                 [routerLink]="item.routerLink ?? []"
                 [fragment]="item.fragment"
                 (click)="closeRequested.emit()"
-                routerLinkActive="bg-blue-50 text-blue-700"
+                routerLinkActive="bg-accent-muted text-accent"
                 [routerLinkActiveOptions]="{ exact: true }"
-                class="group flex items-center gap-2.5 rounded-md px-2.5 py-2 text-sm font-medium text-gray-700 transition-colors duration-150 hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+                class="group flex items-center gap-2.5 rounded-md px-2.5 py-2 text-sm font-medium text-body transition-colors duration-150 hover:bg-surface-hover hover:text-heading focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
               >
                 <ng-container [ngTemplateOutlet]="sectionIcon" [ngTemplateOutletContext]="{ name: item.icon }" />
                 <span class="truncate">{{ item.label }}</span>
                 <svg
-                  class="ml-auto h-4 w-4 shrink-0 text-gray-300 transition-all duration-150 group-hover:translate-x-0.5 group-hover:text-gray-400"
+                  class="ml-auto h-4 w-4 shrink-0 text-faint transition-all duration-150 group-hover:translate-x-0.5 group-hover:text-subtle"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
@@ -87,7 +87,7 @@ import { SidebarIcon, SidebarItem } from '../../../shared/models/sidebar-item.mo
             }
           </li>
         } @empty {
-          <li class="px-2 text-sm text-gray-500">Sin contenido para mostrar.</li>
+          <li class="px-2 text-sm text-muted">Sin contenido para mostrar.</li>
         }
       </ul>
     </nav>

@@ -1,0 +1,9 @@
+{
+  // Tailwind CSS v4 introduces at-rules (@theme, @custom-variant, @utility, @variant, @plugin)
+  // that VS Code's built-in CSS validator doesn't recognize yet, causing false "unknown at rule"
+  // warnings on valid Tailwind syntax. Silencing this lint here is the standard fix — the build
+  // (ng build) already compiles these correctly.
+  "css.lint.unknownAtRules": "ignore",
+  "scss.lint.unknownAtRules": "ignore",
+  "less.lint.unknownAtRules": "ignore"
+}

@@ -10,7 +10,7 @@ import { Product, PRODUCT_STATUS_BADGE_CLASSES, PRODUCT_STATUS_LABELS } from '..
   template: `
     <a
       [routerLink]="['/productos', product().slug]"
-      class="group block rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition hover:border-blue-300 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+      class="group block rounded-xl border border-border bg-surface p-6 shadow-sm transition hover:border-blue-300 hover:shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 dark:hover:border-blue-700"
     >
       <img
         [ngSrc]="product().logoUrl"
@@ -25,10 +25,10 @@ import { Product, PRODUCT_STATUS_BADGE_CLASSES, PRODUCT_STATUS_LABELS } from '..
       >
         {{ statusLabel() }}
       </span>
-      <h3 class="mt-3 text-lg font-semibold text-gray-900 group-hover:text-blue-700">
+      <h3 class="mt-3 text-lg font-semibold text-heading group-hover:text-accent">
         {{ product().name }}
       </h3>
-      <p class="mt-1 text-sm text-gray-600">{{ product().shortDescription }}</p>
+      <p class="mt-1 text-sm text-body">{{ product().shortDescription }}</p>
     </a>
   `,
 })

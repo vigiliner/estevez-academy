@@ -2,29 +2,29 @@
   <article class="mx-auto max-w-4xl px-4 py-10">
     <a
       [routerLink]="['/productos', product.slug]"
-      class="rounded text-sm text-blue-700 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+      class="rounded text-sm text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
     >
       ← Volver a {{ product.name }}
     </a>
 
     <header class="mt-6">
-      <h1 class="text-3xl font-bold text-gray-900">Manual de usuario</h1>
-      <p class="mt-2 text-gray-600">
+      <h1 class="text-3xl font-bold text-heading">Manual de usuario</h1>
+      <p class="mt-2 text-body">
         Guía paso a paso de {{ product.name }} organizada por rol, con descripción y capturas de pantalla reales del
         sistema.
       </p>
     </header>
 
     @if (product.userManual.length) {
-      <nav class="mt-8 rounded-lg border border-gray-200 bg-gray-50 p-4" aria-label="Roles del manual">
-        <p class="text-sm font-semibold text-gray-900">Roles cubiertos</p>
+      <nav class="mt-8 rounded-lg border border-border bg-surface-alt p-4" aria-label="Roles del manual">
+        <p class="text-sm font-semibold text-heading">Roles cubiertos</p>
         <ul class="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm">
           @for (role of product.userManual; track role.id) {
             <li>
               <a
                 [routerLink]="[]"
                 [fragment]="'rol-' + role.id"
-                class="rounded text-blue-700 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+                class="rounded text-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
               >
                 {{ role.name }}
               </a>
@@ -38,26 +38,26 @@
           <section [id]="'rol-' + role.id" [attr.aria-labelledby]="'rol-heading-' + role.id" class="scroll-mt-6">
             <h2
               [id]="'rol-heading-' + role.id"
-              class="text-2xl font-bold text-gray-900"
+              class="text-2xl font-bold text-heading"
               [innerHTML]="role.name | highlight: searchService.activeTerm()"
             ></h2>
-            <p class="mt-2 text-gray-600" [innerHTML]="role.summary | highlight: searchService.activeTerm()"></p>
+            <p class="mt-2 text-body" [innerHTML]="role.summary | highlight: searchService.activeTerm()"></p>
 
             @if (role.steps.length) {
               <div class="mt-8 space-y-12">
                 @for (step of role.steps; track step.title) {
                   <div>
                     <h3
-                      class="text-lg font-semibold text-gray-900"
+                      class="text-lg font-semibold text-heading"
                       [innerHTML]="step.title | highlight: searchService.activeTerm()"
                     ></h3>
                     @for (paragraph of step.description; track paragraph) {
-                      <p class="mt-2 text-gray-600" [innerHTML]="paragraph | highlight: searchService.activeTerm()"></p>
+                      <p class="mt-2 text-body" [innerHTML]="paragraph | highlight: searchService.activeTerm()"></p>
                     }
                     @if (step.screenshots?.length) {
                       <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
                         @for (shot of step.screenshots; track shot.src) {
-                          <figure class="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+                          <figure class="overflow-hidden rounded-lg border border-border bg-surface shadow-sm">
                             <img
                               [ngSrc]="shot.src"
                               [width]="shot.width"
@@ -73,18 +73,18 @@
                 }
               </div>
             } @else {
-              <p class="mt-4 text-sm text-gray-500">Contenido paso a paso en preparación para este rol.</p>
+              <p class="mt-4 text-sm text-muted">Contenido paso a paso en preparación para este rol.</p>
             }
           </section>
         }
       </div>
     } @else {
-      <p class="mt-8 text-gray-500">El manual de usuario de este producto está en preparación.</p>
+      <p class="mt-8 text-muted">El manual de usuario de este producto está en preparación.</p>
     }
   </article>
 } @else {
   <div class="mx-auto max-w-3xl px-4 py-10">
-    <p class="text-gray-600">No encontramos el producto solicitado.</p>
-    <a routerLink="/productos" class="rounded text-blue-700 hover:underline">Volver a productos</a>
+    <p class="text-body">No encontramos el producto solicitado.</p>
+    <a routerLink="/productos" class="rounded text-accent hover:underline">Volver a productos</a>
   </div>
 }

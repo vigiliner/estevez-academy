@@ -4,8 +4,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'app-footer',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <footer class="border-t border-gray-200 bg-white">
-      <div class="mx-auto max-w-5xl px-4 py-6 text-center text-sm text-gray-500">
+    <footer class="border-t border-border bg-surface">
+      <div class="mx-auto max-w-5xl px-4 py-6 text-center text-sm text-muted">
         © {{ currentYear }} Estevez.jor — Estevez Academy
       </div>
     </footer>

@@ -16,9 +16,9 @@ const KIND_LABELS: Record<SearchResultKind, string> = {
 };
 
 const KIND_BADGE_CLASSES: Record<SearchResultKind, string> = {
-  functional: 'bg-blue-100 text-blue-800',
-  technical: 'bg-purple-100 text-purple-800',
-  manual: 'bg-emerald-100 text-emerald-800',
+  functional: 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300',
+  technical: 'bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300',
+  manual: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300',
 };
 
 @Component({
@@ -33,7 +33,7 @@ const KIND_BADGE_CLASSES: Record<SearchResultKind, string> = {
     <label [for]="inputId" class="sr-only">Buscar en el contenido de los productos</label>
     <div class="relative">
       <svg
-        class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400"
+        class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-subtle"
         fill="none"
         viewBox="0 0 24 24"
         stroke-width="2"
@@ -53,7 +53,7 @@ const KIND_BADGE_CLASSES: Record<SearchResultKind, string> = {
         [attr.aria-activedescendant]="activeIndex() >= 0 ? optionId(activeIndex()) : null"
         autocomplete="off"
         placeholder="Buscar en productos…"
-        class="w-full rounded-lg border border-gray-300 bg-white py-2 pl-9 text-sm text-gray-900 placeholder:text-gray-400 transition-shadow duration-200 hover:border-gray-400 focus:outline-none focus-visible:border-blue-600 focus-visible:shadow-[0_0_0_6px_rgba(37,99,235,0.12)] focus-visible:ring-2 focus-visible:ring-blue-600"
+        class="w-full rounded-lg border border-border bg-surface-alt py-2 pl-9 text-sm text-heading placeholder:text-subtle transition-shadow duration-200 hover:border-subtle focus:outline-none focus-visible:border-blue-600 focus-visible:shadow-[0_0_0_6px_rgba(37,99,235,0.12)] focus-visible:ring-2 focus-visible:ring-blue-600"
         [class.pr-3]="!showCounter()"
         [class.pr-20]="showCounter()"
         (focus)="isOpen.set(true)"
@@ -63,7 +63,7 @@ const KIND_BADGE_CLASSES: Record<SearchResultKind, string> = {
       @if (showCounter()) {
         <span
           aria-hidden="true"
-          class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium tabular-nums text-gray-400"
+          class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium tabular-nums text-subtle"
         >
           {{ counterLabel() }}
         </span>
@@ -74,10 +74,10 @@ const KIND_BADGE_CLASSES: Record<SearchResultKind, string> = {
 
     @if (panelOpen()) {
       <div
-        class="animate-dropdown-in absolute left-0 right-0 top-full z-50 mt-2 max-h-96 origin-top overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg"
+        class="animate-dropdown-in absolute left-0 right-0 top-full z-50 mt-2 max-h-96 origin-top overflow-y-auto rounded-lg border border-border bg-surface shadow-lg"
       >
         @if (results().length) {
-          <ul [id]="listboxId" role="listbox" aria-label="Resultados de búsqueda" class="divide-y divide-gray-100">
+          <ul [id]="listboxId" role="listbox" aria-label="Resultados de búsqueda" class="divide-y divide-border-subtle">
             @for (result of results(); track result.id; let i = $index) {
               <li
                 [id]="optionId(i)"
@@ -85,11 +85,11 @@ const KIND_BADGE_CLASSES: Record<SearchResultKind, string> = {
                 [attr.aria-selected]="i === activeIndex()"
                 (mousedown)="$event.preventDefault()"
                 (click)="activate(result)"
-                class="cursor-pointer px-4 py-3 transition-colors duration-150 hover:bg-gray-50"
-                [class.bg-blue-50]="i === activeIndex()"
+                class="cursor-pointer px-4 py-3 transition-colors duration-150 hover:bg-surface-hover"
+                [class.bg-accent-muted]="i === activeIndex()"
               >
                 <div class="flex items-center gap-2">
-                  <span class="truncate text-sm font-medium text-gray-900">{{ result.title }}</span>
+                  <span class="truncate text-sm font-medium text-heading">{{ result.title }}</span>
                   <span
                     class="shrink-0 rounded-full px-2 py-0.5 text-[11px] font-medium"
                     [class]="kindBadgeClasses[result.kind]"
@@ -97,13 +97,13 @@ const KIND_BADGE_CLASSES: Record<SearchResultKind, string> = {
                     {{ kindLabels[result.kind] }}
                   </span>
                 </div>
-                <p class="mt-0.5 truncate text-xs text-gray-500">{{ result.productName }} · {{ result.sectionLabel }}</p>
-                <p class="mt-1 line-clamp-2 text-xs text-gray-600">{{ result.snippet }}</p>
+                <p class="mt-0.5 truncate text-xs text-muted">{{ result.productName }} · {{ result.sectionLabel }}</p>
+                <p class="mt-1 line-clamp-2 text-xs text-body">{{ result.snippet }}</p>
               </li>
             }
           </ul>
         } @else {
-          <p class="px-4 py-6 text-center text-sm text-gray-500">Sin resultados para "{{ query() }}"</p>
+          <p class="px-4 py-6 text-center text-sm text-muted">Sin resultados para "{{ query() }}"</p>
         }
       </div>
     }

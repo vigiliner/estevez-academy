@@ -46,7 +46,7 @@ export const PRODUCT_STATUS_LABELS: Record<ProductStatus, string> = {
 };
 
 export const PRODUCT_STATUS_BADGE_CLASSES: Record<ProductStatus, string> = {
-  disponible: 'bg-green-100 text-green-800',
-  'en-progreso': 'bg-amber-100 text-amber-800',
-  proximamente: 'bg-gray-100 text-gray-700',
+  disponible: 'bg-green-100 text-green-800 dark:bg-green-950 dark:text-green-300',
+  'en-progreso': 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300',
+  proximamente: 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300',
 };
