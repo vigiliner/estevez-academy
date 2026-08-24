@@ -47,7 +47,9 @@ const SCROLL_ELEVATION_THRESHOLD = 8;
         <app-sidebar
           [title]="sidebarService.title()"
           [items]="sidebarService.items()"
+          [activeFragment]="sidebarService.activeFragment()"
           (closeRequested)="mobileSidebarOpen.set(false)"
+          (fragmentActivated)="sidebarService.activateFragment($event)"
           class="fixed inset-y-0 left-0 z-40 w-72 overflow-y-auto bg-surface shadow-lg transition-transform duration-300 ease-out lg:static lg:z-auto lg:h-full lg:w-64 lg:shrink-0 lg:translate-x-0 lg:border-r lg:border-border lg:shadow-none"
           [class.translate-x-0]="mobileSidebarOpen()"
           [class.-translate-x-full]="!mobileSidebarOpen()"

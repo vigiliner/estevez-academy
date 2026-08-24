@@ -54,8 +54,11 @@ import { SidebarIcon, SidebarItem } from '../../../shared/models/sidebar-item.mo
                     <a
                       [routerLink]="child.routerLink ?? []"
                       [fragment]="child.fragment"
-                      (click)="closeRequested.emit()"
+                      (click)="onChildClick(child)"
                       class="block rounded-md px-2.5 py-1.5 text-sm text-body transition-colors duration-150 hover:bg-surface-hover hover:text-heading focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+                      [class.bg-accent-muted]="isChildActive(child)"
+                      [class.text-accent]="isChildActive(child)"
+                      [attr.aria-current]="isChildActive(child) ? 'location' : null"
                     >
                       {{ child.label }}
                     </a>
@@ -96,7 +99,20 @@ import { SidebarIcon, SidebarItem } from '../../../shared/models/sidebar-item.mo
 export class Sidebar {
   readonly items = input<readonly SidebarItem[]>([]);
   readonly title = input<string | undefined>();
+  readonly activeFragment = input<string | null>(null);
   readonly closeRequested = output<void>();
+  readonly fragmentActivated = output<string>();
+
+  protected isChildActive(child: SidebarItem): boolean {
+    return !!child.fragment && child.fragment === this.activeFragment();
+  }
+
+  protected onChildClick(child: SidebarItem): void {
+    if (child.fragment) {
+      this.fragmentActivated.emit(child.fragment);
+    }
+    this.closeRequested.emit();
+  }
 
   protected iconPath(icon: SidebarIcon | undefined): string {
     switch (icon) {
