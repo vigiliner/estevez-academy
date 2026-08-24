@@ -8,17 +8,28 @@ export class SidebarService {
   private readonly itemsSignal = signal<readonly SidebarItem[]>([]);
   private readonly titleSignal = signal<string | undefined>(undefined);
   private readonly activeFragmentSignal = signal<string | null>(null);
+  private readonly mobileOpenSignal = signal(false);
   private manualOverrideUntil = 0;
 
   readonly items = this.itemsSignal.asReadonly();
   readonly title = this.titleSignal.asReadonly();
   readonly activeFragment = this.activeFragmentSignal.asReadonly();
+  readonly mobileOpen = this.mobileOpenSignal.asReadonly();
 
   setItems(items: readonly SidebarItem[], title?: string): void {
     this.itemsSignal.set(items);
     this.titleSignal.set(title);
     this.activeFragmentSignal.set(null);
     this.manualOverrideUntil = 0;
+    this.mobileOpenSignal.set(false);
+  }
+
+  openMobile(): void {
+    this.mobileOpenSignal.set(true);
+  }
+
+  closeMobile(): void {
+    this.mobileOpenSignal.set(false);
   }
 
   /** Scroll-spy calls this as the user scrolls. Ignored right after an explicit click. */
