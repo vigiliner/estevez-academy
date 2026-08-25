@@ -7,11 +7,13 @@ export function docSectionId(prefix: string, title: string): string {
 }
 
 export function buildProductListSidebarItems(products: readonly Product[]): SidebarItem[] {
-  return products.map((product) => ({
-    label: product.name,
-    routerLink: ['/productos', product.slug],
-    icon: 'package',
-  }));
+  return products
+    .filter((product) => product.status !== 'proximamente')
+    .map((product) => ({
+      label: product.name,
+      routerLink: ['/productos', product.slug],
+      icon: 'package',
+    }));
 }
 
 export function buildProductSidebarItems(product: Product): SidebarItem[] {

@@ -31,9 +31,9 @@ export interface Product {
   readonly name: string;
   readonly shortDescription: string;
   readonly status: ProductStatus;
-  readonly logoUrl: string;
-  readonly logoWidth: number;
-  readonly logoHeight: number;
+  readonly logoUrl?: string;
+  readonly logoWidth?: number;
+  readonly logoHeight?: number;
   readonly functionalDoc: readonly DocSection[];
   readonly technicalDoc: readonly DocSection[];
   readonly userManual: readonly ManualRole[];
