@@ -1,3 +1,6 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 # Contexto del Proyecto
 
@@ -14,19 +17,41 @@ Estado MVP de Vigiliner (a la fecha del último relevamiento):
 - Parcial: Geocercas, Incidencias/Alertas (solo UI, sin datos de prueba).
 - Pendiente: Reportes.
 
+## Comandos
+
+- `npm start` / `npx ng serve` — servidor de desarrollo (`http://localhost:4200`, recarga en caliente).
+- `npm run build` — build de producción a `dist/estevez-academy` (el deploy de CI usa `--base-href /estevez-academy/`, ver `.github/workflows/deploy.yml`).
+- `npm test` / `npx ng test` — corre toda la suite con Vitest (vía `@angular/build:unit-test`). Sin TTY corre una sola vez; en una terminal interactiva queda en watch mode por defecto.
+- `npx ng test --include src/app/app.spec.ts` — corre un solo archivo de test (`--include` acepta glob o ruta de archivo).
+- `npx ng test --filter "<regex>"` — corre solo los tests/suites cuyo nombre matchee el patrón.
+- No hay ESLint configurado. Formateo con Prettier (`npx prettier --write .`); config en `.prettierrc` (100 cols, comillas simples, parser `angular` para `.html`).
+- No hay e2e configurado.
+
 ## Arquitectura de la Academy (esta app)
 
 - Angular 21, standalone components + signals, Tailwind CSS 4, Vitest para unit tests (sin e2e configurado).
 - Sin librería de estado externa — todo con signals/computed nativos.
 - El contenido (docs, manuales) está **hardcodeado** en TypeScript (`src/app/features/products/data/products.service.ts`), no viene de un backend/API.
-- Deploy a GitHub Pages vía GitHub Actions.
+- Deploy a GitHub Pages vía GitHub Actions (`.github/workflows/deploy.yml`), en push a `main`.
 - Estructura de `src/app/`:
-  - `core/layout`: shell de la app, header, footer, sidebar (`sidebar.service.ts`, dinámico por ruta).
+  - `core/layout`: shell de la app (`shell.ts`), header, footer, sidebar (`sidebar.service.ts`, dinámico por ruta) y breadcrumbs.
+  - `core/routing`: `MainContentViewportScroller` — el shell usa `<main id="main-content">` como único contenedor con scroll (header/sidebar/footer quedan fijos), así que reemplaza el `ViewportScroller` por defecto de Angular (que scrollea `window`) para que el scroll-a-anchor y la restauración de posición apunten a ese contenedor. Si un anchor/fragment no scrollea, es la primera sospecha.
   - `core/search`: búsqueda cliente-side sobre el contenido de docs/manuales (`search.service.ts`).
   - `features/home`: landing con listado de productos.
-  - `features/products`: listado, detalle (docs funcional/técnica) y manual por rol (`product-manual`, lazy-loaded).
+  - `features/products`: listado, detalle (docs funcional/técnica) y manual por rol (`product-manual`, lazy-loaded). Las rutas de detalle/manual viven bajo `:slug` como hijas (`products.routes.ts`), con `data: { breadcrumb }` / `data: { breadcrumbParam }` para alimentar el breadcrumb (ver abajo).
   - `shared`: componentes UI reutilizables, modelos, pipes, utils.
 - Esta app en sí no tiene auth/roles — es contenido estático accesible a cualquier visitante (los roles descritos son los de Vigiliner, el producto documentado, no de la Academy).
+
+### Principio recurrente: contenido primero, UI derivada
+
+`products.service.ts` es la única fuente de verdad del contenido. Sidebar, búsqueda y breadcrumbs se **derivan** de ahí — agregar un producto o una sección nueva no requiere tocar ninguno de los tres:
+
+- **Sidebar** (`features/products/data/product-sidebar.ts`): `buildProductSidebarItems(product)` arma los grupos (Documentación funcional / técnica / Manual de usuario) a partir de las secciones del producto. `SidebarService` (`core/layout/sidebar/sidebar.service.ts`) guarda esos items más el fragmento activo; `section-scroll-spy.ts` observa qué sección está en viewport (`IntersectionObserver`) y actualiza ese fragmento activo mientras se hace scroll.
+- **Búsqueda** (`core/search/search.service.ts`): indexa reactivamente `productsService.allProducts()` en un `computed()` — no hay paso de build/reindex.
+- **Breadcrumbs** (`core/layout/breadcrumbs/breadcrumb.service.ts`): combina dos fuentes reactivas, ninguna hardcodeada por página:
+  1. El árbol de rutas activas, leyendo `routeConfig.data.breadcrumb` (label fijo) o `routeConfig.data.breadcrumbParam` (nombre de param a resolver contra `ProductsService`, p.ej. el slug del producto). Usa `routeConfig.data` (no `snapshot.data`) porque `paramsInheritanceStrategy: 'always'` (en `app.config.ts`) hace que `data` se herede a las rutas hijas, y usar `snapshot.data` duplicaría crumbs.
+  2. El fragmento activo de `SidebarService` — agrega los niveles de sección/subsección mientras se hace scroll, sin que sean rutas propias.
+  El componente (`breadcrumbs.ts`) además oculta la barra dinámicamente cuando el contenido ya no cabe en una sola línea (mide con `ResizeObserver` + listener de `window:resize`, comparando `offsetTop` de cada crumb), en vez de usar un breakpoint fijo.
 
 ### Theming (claro/oscuro)
 

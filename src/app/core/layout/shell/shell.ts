@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { Breadcrumbs } from '../breadcrumbs/breadcrumbs';
 import { Footer } from '../footer/footer';
 import { Header } from '../header/header';
 import { Sidebar } from '../sidebar/sidebar';
@@ -9,7 +10,7 @@ const SCROLL_ELEVATION_THRESHOLD = 8;
 
 @Component({
   selector: 'app-shell',
-  imports: [RouterOutlet, Header, Footer, Sidebar],
+  imports: [RouterOutlet, Header, Footer, Sidebar, Breadcrumbs],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <a
@@ -38,9 +39,12 @@ const SCROLL_ELEVATION_THRESHOLD = 8;
           [class.translate-x-0]="sidebarService.mobileOpen()"
           [class.-translate-x-full]="!sidebarService.mobileOpen()"
         />
-        <main id="main-content" class="min-w-0 flex-1 overflow-y-auto" (scroll)="onMainScroll($event)">
-          <router-outlet />
-        </main>
+        <div class="flex min-w-0 flex-1 flex-col">
+          <app-breadcrumbs class="shrink-0" />
+          <main id="main-content" class="min-w-0 flex-1 overflow-y-auto" (scroll)="onMainScroll($event)">
+            <router-outlet />
+          </main>
+        </div>
       </div>
       <app-footer class="shrink-0" />
     </div>

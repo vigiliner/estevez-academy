@@ -4,13 +4,21 @@ export const PRODUCTS_ROUTES: Routes = [
   {
     path: '',
     loadComponent: () => import('./product-list/product-list').then((m) => m.ProductList),
-  },
-  {
-    path: ':slug/manual',
-    loadComponent: () => import('./product-manual/product-manual').then((m) => m.ProductManual),
+    data: { breadcrumb: 'Productos' },
   },
   {
     path: ':slug',
-    loadComponent: () => import('./product-detail/product-detail').then((m) => m.ProductDetail),
+    data: { breadcrumbParam: 'slug' },
+    children: [
+      {
+        path: '',
+        loadComponent: () => import('./product-detail/product-detail').then((m) => m.ProductDetail),
+      },
+      {
+        path: 'manual',
+        loadComponent: () => import('./product-manual/product-manual').then((m) => m.ProductManual),
+        data: { breadcrumb: 'Manual de usuario' },
+      },
+    ],
   },
 ];
