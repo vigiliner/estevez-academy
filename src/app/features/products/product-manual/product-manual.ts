@@ -19,11 +19,6 @@ import { ImageLightbox } from '../../../shared/ui/image-lightbox/image-lightbox'
 import { buildProductSidebarItems } from '../data/product-sidebar';
 import { ProductsService } from '../data/products.service';
 
-interface LightboxState {
-  readonly screenshots: readonly ManualScreenshot[];
-  readonly index: number;
-}
-
 @Component({
   selector: 'app-product-manual',
   imports: [RouterLink, NgOptimizedImage, HighlightPipe, ImageLightbox],
@@ -40,7 +35,15 @@ export class ProductManual {
 
   protected readonly product = computed(() => this.productsService.findBySlug(this.slug()));
 
-  protected readonly lightbox = signal<LightboxState | null>(null);
+  protected readonly allScreenshots = computed<readonly ManualScreenshot[]>(() => {
+    const product = this.product();
+    if (!product) {
+      return [];
+    }
+    return product.userManual.flatMap((role) => role.steps.flatMap((step) => step.screenshots ?? []));
+  });
+
+  protected readonly lightboxIndex = signal<number | null>(null);
 
   private readonly sectionIds = computed(() => {
     const product = this.product();
@@ -63,11 +66,12 @@ export class ProductManual {
     });
   }
 
-  protected openLightbox(screenshots: readonly ManualScreenshot[], index: number): void {
-    this.lightbox.set({ screenshots, index });
+  protected openLightbox(screenshot: ManualScreenshot): void {
+    const index = this.allScreenshots().indexOf(screenshot);
+    this.lightboxIndex.set(index === -1 ? 0 : index);
   }
 
   protected closeLightbox(): void {
-    this.lightbox.set(null);
+    this.lightboxIndex.set(null);
   }
 }

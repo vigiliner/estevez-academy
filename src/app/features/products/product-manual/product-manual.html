@@ -49,11 +49,11 @@
                     }
                     @if (step.screenshots?.length) {
                       <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        @for (shot of step.screenshots; track shot.src; let shotIndex = $index) {
+                        @for (shot of step.screenshots; track shot.src) {
                           <figure class="overflow-hidden rounded-lg border border-border bg-surface shadow-sm">
                             <button
                               type="button"
-                              (click)="openLightbox(step.screenshots!, shotIndex)"
+                              (click)="openLightbox(shot)"
                               [attr.aria-label]="'Ampliar imagen: ' + shot.alt"
                               class="block w-full cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-600"
                             >
@@ -83,10 +83,10 @@
     }
   </article>
 
-  @if (lightbox(); as box) {
+  @if (lightboxIndex() !== null) {
     <app-image-lightbox
-      [images]="box.screenshots"
-      [startIndex]="box.index"
+      [images]="allScreenshots()"
+      [startIndex]="lightboxIndex()!"
       (closed)="closeLightbox()"
     />
   }

@@ -52,6 +52,7 @@ import type { ManualScreenshot } from '../../models/product.model';
           [width]="current().width"
           [height]="current().height"
           [alt]="current().alt"
+          [style.maxWidth.px]="current().width"
           priority
           class="max-h-[75vh] w-auto rounded-lg object-contain"
         />
