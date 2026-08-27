@@ -1,15 +1,18 @@
 @if (product(); as product) {
-  <article class="mx-auto max-w-4xl px-4 py-10">
+  <article class="mx-auto max-w-5xl px-4 py-10">
     <header>
       <h1 class="text-3xl font-bold text-heading">Manual de usuario</h1>
       <p class="mt-2 text-body">
-        Guía paso a paso de {{ product.name }} organizada por rol, con descripción y capturas de pantalla reales del
-        sistema.
+        Guía paso a paso de {{ product.name }} organizada por rol, con descripción y capturas de
+        pantalla reales del sistema.
       </p>
     </header>
 
     @if (product.userManual.length) {
-      <nav class="mt-8 rounded-lg border border-border bg-surface-alt p-4" aria-label="Roles del manual">
+      <nav
+        class="mt-8 rounded-lg border border-border bg-surface-alt p-4"
+        aria-label="Roles del manual"
+      >
         <p class="text-sm font-semibold text-heading">Roles cubiertos</p>
         <ul class="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-sm">
           @for (role of product.userManual; track role.id) {
@@ -28,13 +31,20 @@
 
       <div class="mt-10 space-y-16">
         @for (role of product.userManual; track role.id) {
-          <section [id]="'rol-' + role.id" [attr.aria-labelledby]="'rol-heading-' + role.id" class="scroll-mt-6">
+          <section
+            [id]="'rol-' + role.id"
+            [attr.aria-labelledby]="'rol-heading-' + role.id"
+            class="scroll-mt-6"
+          >
             <h2
               [id]="'rol-heading-' + role.id"
               class="text-2xl font-bold text-heading"
               [innerHTML]="role.name | highlight: searchService.activeTerm()"
             ></h2>
-            <p class="mt-2 text-body" [innerHTML]="role.summary | highlight: searchService.activeTerm()"></p>
+            <p
+              class="mt-2 text-body"
+              [innerHTML]="role.summary | highlight: searchService.activeTerm()"
+            ></p>
 
             @if (role.steps.length) {
               <div class="mt-8 space-y-12">
@@ -45,12 +55,36 @@
                       [innerHTML]="step.title | highlight: searchService.activeTerm()"
                     ></h3>
                     @for (paragraph of step.description; track paragraph) {
-                      <p class="mt-2 text-body" [innerHTML]="paragraph | highlight: searchService.activeTerm()"></p>
+                      <p
+                        class="mt-2 text-body"
+                        [innerHTML]="paragraph | highlight: searchService.activeTerm()"
+                      ></p>
                     }
-                    @if (step.screenshots?.length) {
+                    @if (step.screenshots?.length === 1) {
+                      <figure
+                        class="mx-auto mt-4 w-full max-w-2xl overflow-hidden rounded-lg border border-border bg-surface shadow-sm"
+                      >
+                        <button
+                          type="button"
+                          (click)="openLightbox(step.screenshots![0])"
+                          [attr.aria-label]="'Ampliar imagen: ' + step.screenshots![0].alt"
+                          class="block w-full cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-600"
+                        >
+                          <img
+                            [ngSrc]="step.screenshots![0].src"
+                            [width]="step.screenshots![0].width"
+                            [height]="step.screenshots![0].height"
+                            [alt]="step.screenshots![0].alt"
+                            class="h-auto w-full"
+                          />
+                        </button>
+                      </figure>
+                    } @else if (step.screenshots?.length) {
                       <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
                         @for (shot of step.screenshots; track shot.src) {
-                          <figure class="overflow-hidden rounded-lg border border-border bg-surface shadow-sm">
+                          <figure
+                            class="overflow-hidden rounded-lg border border-border bg-surface shadow-sm"
+                          >
                             <button
                               type="button"
                               (click)="openLightbox(shot)"
@@ -73,7 +107,9 @@
                 }
               </div>
             } @else {
-              <p class="mt-4 text-sm text-muted">Contenido paso a paso en preparación para este rol.</p>
+              <p class="mt-4 text-sm text-muted">
+                Contenido paso a paso en preparación para este rol.
+              </p>
             }
           </section>
         }
