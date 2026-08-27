@@ -5,6 +5,7 @@ import {
   withComponentInputBinding,
   withInMemoryScrolling,
   withRouterConfig,
+  withViewTransitions,
 } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -18,6 +19,14 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding(),
       withRouterConfig({ paramsInheritanceStrategy: 'always' }),
       withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' }),
+      withViewTransitions({
+        skipInitialTransition: true,
+        onViewTransitionCreated: ({ transition }) => {
+          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            transition.skipTransition();
+          }
+        },
+      }),
     ),
     { provide: ViewportScroller, useClass: MainContentViewportScroller },
   ],

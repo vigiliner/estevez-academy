@@ -8,9 +8,13 @@ export const routes: Routes = [
       { path: '', loadComponent: () => import('./features/home/home').then((m) => m.Home) },
       {
         path: 'productos',
-        loadChildren: () => import('./features/products/products.routes').then((m) => m.PRODUCTS_ROUTES),
+        loadChildren: () =>
+          import('./features/products/products.routes').then((m) => m.PRODUCTS_ROUTES),
       },
-      { path: '**', redirectTo: '' },
+      {
+        path: '**',
+        loadComponent: () => import('./features/not-found/not-found').then((m) => m.NotFound),
+      },
     ],
   },
 ];

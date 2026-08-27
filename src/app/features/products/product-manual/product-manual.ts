@@ -16,13 +16,14 @@ import { SearchService } from '../../../core/search/search.service';
 import { HighlightPipe } from '../../../shared/pipes/highlight.pipe';
 import type { ManualScreenshot } from '../../../shared/models/product.model';
 import { ImageLightbox } from '../../../shared/ui/image-lightbox/image-lightbox';
+import { ProductNotFound } from '../../../shared/ui/product-not-found/product-not-found';
 import { ScreenshotBlock } from '../../../shared/ui/screenshot-block/screenshot-block';
 import { buildProductSidebarItems } from '../data/product-sidebar';
 import { ProductsService } from '../data/products.service';
 
 @Component({
   selector: 'app-product-manual',
-  imports: [RouterLink, HighlightPipe, ImageLightbox, ScreenshotBlock],
+  imports: [RouterLink, HighlightPipe, ImageLightbox, ScreenshotBlock, ProductNotFound],
   templateUrl: './product-manual.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

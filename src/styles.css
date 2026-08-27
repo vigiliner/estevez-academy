@@ -57,4 +57,13 @@
   .animate-dropdown-in {
     animation: dropdown-in 150ms ease-out;
   }
+
+  /* Smooths the light/dark switch instead of an instant color snap. */
+  body,
+  body * {
+    transition:
+      background-color 200ms ease,
+      border-color 200ms ease,
+      color 200ms ease;
+  }
 }

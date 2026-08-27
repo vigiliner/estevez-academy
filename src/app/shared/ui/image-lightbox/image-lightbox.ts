@@ -54,7 +54,7 @@ import type { ManualScreenshot } from '../../models/product.model';
           [width]="current().width"
           [height]="current().height"
           [alt]="current().alt"
-          [style.maxWidth.px]="current().width"
+          [style.maxWidth]="imgMaxWidth()"
           priority
           class="max-h-[75vh] w-auto rounded-lg object-contain"
         />
@@ -123,6 +123,9 @@ export class ImageLightbox {
   protected readonly hasMultiple = computed(() => this.images().length > 1);
   protected readonly isFirst = computed(() => this.index() === 0);
   protected readonly isLast = computed(() => this.index() === this.images().length - 1);
+  protected readonly imgMaxWidth = computed(
+    () => `min(${this.current().width}px, calc(100vw - 32px))`,
+  );
 
   constructor() {
     afterRenderEffect(() => {

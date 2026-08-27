@@ -121,10 +121,33 @@ const PRODUCTS: Product[] = [
       },
       {
         title: 'Estado actual del MVP',
-        items: [
-          'Completos y en uso: autenticación, dashboard, mapa en tiempo real, unidades, conductores, usuarios/roles, panel de Super Admin (empresas, usuarios, unidades, GPS, teléfonos, mapa global).',
-          'Parciales: Geocercas e Incidencias/Alertas — UI funcional, sin datos de prueba cargados.',
-          'Pendiente: Reportes, marcado explícitamente como "Próximamente" en producción.',
+        statusItems: [
+          { label: 'Autenticación', tone: 'done' },
+          { label: 'Dashboard', tone: 'done' },
+          { label: 'Mapa en tiempo real', tone: 'done' },
+          { label: 'Unidades', tone: 'done' },
+          { label: 'Conductores', tone: 'done' },
+          { label: 'Usuarios y roles', tone: 'done' },
+          {
+            label: 'Panel de Super Admin',
+            text: 'Empresas, usuarios, unidades, GPS, teléfonos, mapa global.',
+            tone: 'done',
+          },
+          {
+            label: 'Geocercas',
+            text: 'UI funcional, sin datos de prueba cargados.',
+            tone: 'partial',
+          },
+          {
+            label: 'Incidencias y Alertas',
+            text: 'UI funcional, sin datos de prueba cargados.',
+            tone: 'partial',
+          },
+          {
+            label: 'Reportes',
+            text: 'Marcado explícitamente como "Próximamente" en producción.',
+            tone: 'pending',
+          },
         ],
       },
     ],

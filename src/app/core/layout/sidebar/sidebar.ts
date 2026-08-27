@@ -31,7 +31,7 @@ import { SidebarIcon, SidebarItem } from '../../../shared/models/sidebar-item.mo
       >
         <div class="mb-3 flex items-center justify-between">
           @if (title()) {
-            <p class="px-2 text-xs font-semibold tracking-wider text-subtle uppercase">
+            <p class="px-2 text-xs font-semibold tracking-wider text-muted uppercase">
               {{ title() }}
             </p>
           }
@@ -59,7 +59,7 @@ import { SidebarIcon, SidebarItem } from '../../../shared/models/sidebar-item.mo
             <li>
               @if (item.children?.length) {
                 <p
-                  class="mt-5 flex items-center gap-2.5 px-2 py-1 text-xs font-semibold tracking-wide text-subtle uppercase first:mt-0"
+                  class="mt-5 flex items-center gap-2.5 px-2 py-1 text-xs font-semibold tracking-wide text-muted uppercase first:mt-0"
                 >
                   <ng-container
                     [ngTemplateOutlet]="sectionIcon"

@@ -20,13 +20,23 @@ import {
   type ManualScreenshot,
 } from '../../../shared/models/product.model';
 import { ImageLightbox } from '../../../shared/ui/image-lightbox/image-lightbox';
+import { ProductNotFound } from '../../../shared/ui/product-not-found/product-not-found';
 import { ScreenshotBlock } from '../../../shared/ui/screenshot-block/screenshot-block';
+import { StatusList } from '../../../shared/ui/status-list/status-list';
 import { buildProductSidebarItems, docSectionId } from '../data/product-sidebar';
 import { ProductsService } from '../data/products.service';
 
 @Component({
   selector: 'app-product-detail',
-  imports: [RouterLink, NgOptimizedImage, HighlightPipe, ImageLightbox, ScreenshotBlock],
+  imports: [
+    RouterLink,
+    NgOptimizedImage,
+    HighlightPipe,
+    ImageLightbox,
+    ScreenshotBlock,
+    ProductNotFound,
+    StatusList,
+  ],
   templateUrl: './product-detail.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

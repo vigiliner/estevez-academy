@@ -14,7 +14,9 @@ function normalize(value: string): string {
 
 function buildSnippet(text: string): string {
   const trimmed = text.trim();
-  return trimmed.length > SNIPPET_MAX_LENGTH ? `${trimmed.slice(0, SNIPPET_MAX_LENGTH).trimEnd()}…` : trimmed;
+  return trimmed.length > SNIPPET_MAX_LENGTH
+    ? `${trimmed.slice(0, SNIPPET_MAX_LENGTH).trimEnd()}…`
+    : trimmed;
 }
 
 function buildDocResult(
@@ -24,7 +26,13 @@ function buildDocResult(
   sectionLabel: string,
 ): SearchResult {
   const fragment = docSectionId(kind === 'functional' ? 'func' : 'tec', section.title);
-  const content = [section.title, ...(section.paragraphs ?? []), ...(section.items ?? [])].join(' ');
+  const statusText = (section.statusItems ?? []).map((item) => `${item.label} ${item.text ?? ''}`);
+  const content = [
+    section.title,
+    ...(section.paragraphs ?? []),
+    ...(section.items ?? []),
+    ...statusText,
+  ].join(' ');
 
   return {
     id: `${product.slug}-${kind}-${fragment}`,
@@ -73,8 +81,12 @@ function buildManualResults(product: Product, role: ManualRole): SearchResult[] 
 
 function buildProductIndex(product: Product): SearchResult[] {
   return [
-    ...product.functionalDoc.map((section) => buildDocResult(product, section, 'functional', 'Documentación funcional')),
-    ...product.technicalDoc.map((section) => buildDocResult(product, section, 'technical', 'Documentación técnica')),
+    ...product.functionalDoc.map((section) =>
+      buildDocResult(product, section, 'functional', 'Documentación funcional'),
+    ),
+    ...product.technicalDoc.map((section) =>
+      buildDocResult(product, section, 'technical', 'Documentación técnica'),
+    ),
     ...product.userManual.flatMap((role) => buildManualResults(product, role)),
   ];
 }

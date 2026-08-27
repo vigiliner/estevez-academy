@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -40,7 +47,11 @@ const KIND_BADGE_CLASSES: Record<SearchResultKind, string> = {
         stroke="currentColor"
         aria-hidden="true"
       >
-        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.2-5.2m1.7-5.3a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="m21 21-5.2-5.2m1.7-5.3a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
+        />
       </svg>
       <input
         [id]="inputId"
@@ -63,7 +74,7 @@ const KIND_BADGE_CLASSES: Record<SearchResultKind, string> = {
       @if (showCounter()) {
         <span
           aria-hidden="true"
-          class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium tabular-nums text-subtle"
+          class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-xs font-medium tabular-nums text-muted"
         >
           {{ counterLabel() }}
         </span>
@@ -77,7 +88,12 @@ const KIND_BADGE_CLASSES: Record<SearchResultKind, string> = {
         class="animate-dropdown-in absolute left-0 right-0 top-full z-50 mt-2 max-h-96 origin-top overflow-y-auto rounded-lg border border-border bg-surface shadow-lg"
       >
         @if (results().length) {
-          <ul [id]="listboxId" role="listbox" aria-label="Resultados de búsqueda" class="divide-y divide-border-subtle">
+          <ul
+            [id]="listboxId"
+            role="listbox"
+            aria-label="Resultados de búsqueda"
+            class="divide-y divide-border-subtle"
+          >
             @for (result of results(); track result.id; let i = $index) {
               <li
                 [id]="optionId(i)"
@@ -97,13 +113,17 @@ const KIND_BADGE_CLASSES: Record<SearchResultKind, string> = {
                     {{ kindLabels[result.kind] }}
                   </span>
                 </div>
-                <p class="mt-0.5 truncate text-xs text-muted">{{ result.productName }} · {{ result.sectionLabel }}</p>
+                <p class="mt-0.5 truncate text-xs text-muted">
+                  {{ result.productName }} · {{ result.sectionLabel }}
+                </p>
                 <p class="mt-1 line-clamp-2 text-xs text-body">{{ result.snippet }}</p>
               </li>
             }
           </ul>
         } @else {
-          <p class="px-4 py-6 text-center text-sm text-muted">Sin resultados para "{{ query() }}"</p>
+          <p class="px-4 py-6 text-center text-sm text-muted">
+            Sin resultados para "{{ query() }}"
+          </p>
         }
       </div>
     }
@@ -124,7 +144,11 @@ export class Search {
   protected readonly kindBadgeClasses = KIND_BADGE_CLASSES;
 
   protected readonly query = toSignal(
-    this.control.valueChanges.pipe(startWith(this.control.value), debounceTime(150), distinctUntilChanged()),
+    this.control.valueChanges.pipe(
+      startWith(this.control.value),
+      debounceTime(150),
+      distinctUntilChanged(),
+    ),
     { initialValue: this.control.value },
   );
 
@@ -145,7 +169,9 @@ export class Search {
     return `${count} resultado${count === 1 ? '' : 's'}`;
   });
 
-  protected readonly panelOpen = computed(() => this.isOpen() && this.query().trim().length >= MIN_QUERY_LENGTH);
+  protected readonly panelOpen = computed(
+    () => this.isOpen() && this.query().trim().length >= MIN_QUERY_LENGTH,
+  );
 
   protected readonly liveMessage = computed(() => {
     const term = this.query().trim();
