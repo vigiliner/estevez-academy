@@ -1,7 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { NgOptimizedImage, NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { Product, PRODUCT_STATUS_BADGE_CLASSES, PRODUCT_STATUS_LABELS } from '../../models/product.model';
+import {
+  Product,
+  PRODUCT_STATUS_BADGE_CLASSES,
+  PRODUCT_STATUS_LABELS,
+} from '../../models/product.model';
 
 @Component({
   selector: 'app-product-card',
@@ -34,8 +38,17 @@ import { Product, PRODUCT_STATUS_BADGE_CLASSES, PRODUCT_STATUS_LABELS } from '..
           class="h-12 w-auto object-contain"
         />
       } @else {
-        <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-surface-alt text-subtle" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-6 w-6">
+        <div
+          class="flex h-12 w-12 items-center justify-center rounded-lg bg-surface-alt text-subtle"
+          aria-hidden="true"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            class="h-6 w-6"
+          >
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -61,6 +74,10 @@ export class ProductCard {
   readonly product = input.required<Product>();
 
   protected readonly isComingSoon = computed(() => this.product().status === 'proximamente');
-  protected readonly statusLabel = computed(() => PRODUCT_STATUS_LABELS[this.product().status]);
-  protected readonly badgeClasses = computed(() => PRODUCT_STATUS_BADGE_CLASSES[this.product().status]);
+  protected readonly statusLabel = computed(
+    () => this.product().statusLabel ?? PRODUCT_STATUS_LABELS[this.product().status],
+  );
+  protected readonly badgeClasses = computed(
+    () => PRODUCT_STATUS_BADGE_CLASSES[this.product().status],
+  );
 }

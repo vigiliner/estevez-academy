@@ -53,7 +53,7 @@ export class ProductDetail {
   protected readonly lightboxIndex = signal<number | null>(null);
   protected readonly statusLabel = computed(() => {
     const product = this.product();
-    return product ? PRODUCT_STATUS_LABELS[product.status] : '';
+    return product ? (product.statusLabel ?? PRODUCT_STATUS_LABELS[product.status]) : '';
   });
   protected readonly badgeClasses = computed(() => {
     const product = this.product();

@@ -32,6 +32,7 @@ export interface Product {
   readonly name: string;
   readonly shortDescription: string;
   readonly status: ProductStatus;
+  readonly statusLabel?: string;
   readonly logoUrl?: string;
   readonly logoWidth?: number;
   readonly logoHeight?: number;

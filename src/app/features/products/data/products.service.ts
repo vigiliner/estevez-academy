@@ -6,10 +6,11 @@ const PRODUCTS: Product[] = [
     slug: 'vigiliner',
     name: 'Vigiliner',
     shortDescription: 'Documentación funcional y técnica de Vigiliner.',
-    status: 'en-progreso',
+    status: 'disponible',
+    statusLabel: 'Versión 1.0.0',
     logoUrl: 'products/vigiliner.png',
-    logoWidth: 572,
-    logoHeight: 375,
+    logoWidth: 333,
+    logoHeight: 351,
     functionalDoc: [
       {
         title: '¿Qué es Vigiliner?',
