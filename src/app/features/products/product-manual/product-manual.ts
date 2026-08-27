@@ -1,16 +1,32 @@
-import { ChangeDetectionStrategy, Component, afterRenderEffect, computed, effect, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  afterRenderEffect,
+  computed,
+  effect,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { DOCUMENT, NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { observeActiveSection } from '../../../core/layout/sidebar/section-scroll-spy';
 import { SidebarService } from '../../../core/layout/sidebar/sidebar.service';
 import { SearchService } from '../../../core/search/search.service';
 import { HighlightPipe } from '../../../shared/pipes/highlight.pipe';
+import type { ManualScreenshot } from '../../../shared/models/product.model';
+import { ImageLightbox } from '../../../shared/ui/image-lightbox/image-lightbox';
 import { buildProductSidebarItems } from '../data/product-sidebar';
 import { ProductsService } from '../data/products.service';
 
+interface LightboxState {
+  readonly screenshots: readonly ManualScreenshot[];
+  readonly index: number;
+}
+
 @Component({
   selector: 'app-product-manual',
-  imports: [RouterLink, NgOptimizedImage, HighlightPipe],
+  imports: [RouterLink, NgOptimizedImage, HighlightPipe, ImageLightbox],
   templateUrl: './product-manual.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -23,6 +39,8 @@ export class ProductManual {
   readonly slug = input.required<string>();
 
   protected readonly product = computed(() => this.productsService.findBySlug(this.slug()));
+
+  protected readonly lightbox = signal<LightboxState | null>(null);
 
   private readonly sectionIds = computed(() => {
     const product = this.product();
@@ -43,5 +61,13 @@ export class ProductManual {
         onCleanup,
       );
     });
+  }
+
+  protected openLightbox(screenshots: readonly ManualScreenshot[], index: number): void {
+    this.lightbox.set({ screenshots, index });
+  }
+
+  protected closeLightbox(): void {
+    this.lightbox.set(null);
   }
 }

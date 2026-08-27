@@ -49,15 +49,22 @@
                     }
                     @if (step.screenshots?.length) {
                       <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        @for (shot of step.screenshots; track shot.src) {
+                        @for (shot of step.screenshots; track shot.src; let shotIndex = $index) {
                           <figure class="overflow-hidden rounded-lg border border-border bg-surface shadow-sm">
-                            <img
-                              [ngSrc]="shot.src"
-                              [width]="shot.width"
-                              [height]="shot.height"
-                              [alt]="shot.alt"
-                              class="h-auto w-full"
-                            />
+                            <button
+                              type="button"
+                              (click)="openLightbox(step.screenshots!, shotIndex)"
+                              [attr.aria-label]="'Ampliar imagen: ' + shot.alt"
+                              class="block w-full cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-600"
+                            >
+                              <img
+                                [ngSrc]="shot.src"
+                                [width]="shot.width"
+                                [height]="shot.height"
+                                [alt]="shot.alt"
+                                class="h-auto w-full"
+                              />
+                            </button>
                           </figure>
                         }
                       </div>
@@ -75,6 +82,14 @@
       <p class="mt-8 text-muted">El manual de usuario de este producto está en preparación.</p>
     }
   </article>
+
+  @if (lightbox(); as box) {
+    <app-image-lightbox
+      [images]="box.screenshots"
+      [startIndex]="box.index"
+      (closed)="closeLightbox()"
+    />
+  }
 } @else {
   <div class="mx-auto max-w-3xl px-4 py-10">
     <p class="text-body">No encontramos el producto solicitado.</p>
