@@ -39,9 +39,9 @@ const NAV_LINK_ACTIVE_CLASSES = 'text-accent after:scale-x-100';
         }
         <div class="group flex shrink-0 items-center gap-2.5 text-lg font-bold text-heading transition-opacity duration-200 hover:opacity-80">
           <img
-            ngSrc="logo-mark.svg"
-            width="320"
-            height="280"
+            ngSrc="logo-mark.png"
+            width="192"
+            height="142"
             alt=""
             class="h-9 w-auto transition-transform duration-200 group-hover:scale-110"
           />
