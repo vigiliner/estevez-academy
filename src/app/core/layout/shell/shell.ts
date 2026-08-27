@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Breadcrumbs } from '../breadcrumbs/breadcrumbs';
-import { Footer } from '../footer/footer';
 import { Header } from '../header/header';
 import { Sidebar } from '../sidebar/sidebar';
 import { SidebarService } from '../sidebar/sidebar.service';
@@ -10,7 +9,7 @@ const SCROLL_ELEVATION_THRESHOLD = 8;
 
 @Component({
   selector: 'app-shell',
-  imports: [RouterOutlet, Header, Footer, Sidebar, Breadcrumbs],
+  imports: [RouterOutlet, Header, Sidebar, Breadcrumbs],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <a
@@ -35,18 +34,21 @@ const SCROLL_ELEVATION_THRESHOLD = 8;
           [activeFragment]="sidebarService.activeFragment()"
           (closeRequested)="sidebarService.closeMobile()"
           (fragmentActivated)="sidebarService.activateFragment($event)"
-          class="fixed inset-y-0 left-0 z-40 w-72 overflow-y-auto bg-surface shadow-lg transition-transform duration-300 ease-out lg:static lg:z-auto lg:h-full lg:w-64 lg:shrink-0 lg:translate-x-0 lg:border-r lg:border-border lg:shadow-none"
+          class="fixed inset-y-0 left-0 z-40 w-72 bg-surface shadow-lg transition-transform duration-300 ease-out lg:static lg:z-auto lg:h-full lg:w-64 lg:shrink-0 lg:translate-x-0 lg:border-r lg:border-border lg:shadow-none"
           [class.translate-x-0]="sidebarService.mobileOpen()"
           [class.-translate-x-full]="!sidebarService.mobileOpen()"
         />
         <div class="flex min-w-0 flex-1 flex-col">
           <app-breadcrumbs class="shrink-0" />
-          <main id="main-content" class="min-w-0 flex-1 overflow-y-auto" (scroll)="onMainScroll($event)">
+          <main
+            id="main-content"
+            class="min-w-0 flex-1 overflow-y-auto"
+            (scroll)="onMainScroll($event)"
+          >
             <router-outlet />
           </main>
         </div>
       </div>
-      <app-footer class="shrink-0" />
     </div>
   `,
 })
