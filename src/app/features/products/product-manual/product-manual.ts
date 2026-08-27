@@ -16,12 +16,13 @@ import { SearchService } from '../../../core/search/search.service';
 import { HighlightPipe } from '../../../shared/pipes/highlight.pipe';
 import type { ManualScreenshot } from '../../../shared/models/product.model';
 import { ImageLightbox } from '../../../shared/ui/image-lightbox/image-lightbox';
+import { ScreenshotCarousel } from '../../../shared/ui/screenshot-carousel/screenshot-carousel';
 import { buildProductSidebarItems } from '../data/product-sidebar';
 import { ProductsService } from '../data/products.service';
 
 @Component({
   selector: 'app-product-manual',
-  imports: [RouterLink, NgOptimizedImage, HighlightPipe, ImageLightbox],
+  imports: [RouterLink, NgOptimizedImage, HighlightPipe, ImageLightbox, ScreenshotCarousel],
   templateUrl: './product-manual.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -40,7 +41,9 @@ export class ProductManual {
     if (!product) {
       return [];
     }
-    return product.userManual.flatMap((role) => role.steps.flatMap((step) => step.screenshots ?? []));
+    return product.userManual.flatMap((role) =>
+      role.steps.flatMap((step) => step.screenshots ?? []),
+    );
   });
 
   protected readonly lightboxIndex = signal<number | null>(null);
