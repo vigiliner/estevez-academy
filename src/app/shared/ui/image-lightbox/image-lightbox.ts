@@ -49,15 +49,18 @@ import type { ManualScreenshot } from '../../models/product.model';
           </button>
         }
 
-        <img
-          [ngSrc]="current().src"
-          [width]="current().width"
-          [height]="current().height"
-          [alt]="current().alt"
-          [style.maxWidth]="imgMaxWidth()"
-          priority
-          class="max-h-[75vh] w-auto rounded-lg object-contain"
-        />
+        <div
+          class="max-h-[75vh] max-w-[calc(100vw-2rem)] overflow-auto overscroll-contain rounded-lg sm:contents"
+        >
+          <img
+            [ngSrc]="current().src"
+            [width]="current().width"
+            [height]="current().height"
+            [alt]="current().alt"
+            priority
+            class="block max-w-none rounded-lg sm:h-auto sm:max-h-[75vh] sm:w-auto sm:max-w-[calc(100vw-2rem)] sm:object-contain"
+          />
+        </div>
 
         @if (hasMultiple() && !isLast()) {
           <button
@@ -123,9 +126,6 @@ export class ImageLightbox {
   protected readonly hasMultiple = computed(() => this.images().length > 1);
   protected readonly isFirst = computed(() => this.index() === 0);
   protected readonly isLast = computed(() => this.index() === this.images().length - 1);
-  protected readonly imgMaxWidth = computed(
-    () => `min(${this.current().width}px, calc(100vw - 32px))`,
-  );
 
   constructor() {
     afterRenderEffect(() => {

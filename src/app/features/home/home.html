@@ -18,7 +18,7 @@
   ></div>
 
   <div
-    class="relative mx-auto grid max-w-6xl items-center gap-8 px-4 py-6 sm:py-8 lg:grid-cols-2"
+    class="relative mx-auto grid max-w-6xl items-center gap-8 px-4 py-5 sm:py-6 lg:grid-cols-[1.4fr_1fr]"
   >
     <div class="text-center lg:text-left">
       <span
@@ -28,10 +28,7 @@
         Centro de conocimiento tecnológico
       </span>
 
-      <h1
-        id="hero-heading"
-        class="mt-5 text-4xl font-extrabold tracking-tight sm:text-6xl"
-      >
+      <h1 id="hero-heading" class="mt-4 text-4xl font-extrabold tracking-tight sm:text-6xl">
         Estevez
         <span
           class="bg-linear-to-r from-cyan-300 via-sky-400 to-blue-500 bg-clip-text text-transparent"
@@ -39,12 +36,12 @@
         >
       </h1>
 
-      <p class="mx-auto mt-4 max-w-xl text-lg leading-relaxed text-slate-300 lg:mx-0">
+      <p class="mx-auto mt-3 max-w-xl text-lg leading-relaxed text-slate-300 lg:mx-0">
         Domina cada producto y servicio de Estevez.jor con documentación funcional y técnica,
         explicada paso a paso. Aprende, construye e innova en un solo lugar.
       </p>
 
-      <div class="mt-6 flex items-center justify-center lg:justify-start">
+      <div class="mt-5 flex items-center justify-center lg:justify-start">
         <a
           routerLink="/productos"
           class="rounded-lg bg-linear-to-r from-sky-500 to-blue-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-blue-900/40 transition hover:from-sky-400 hover:to-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
@@ -73,9 +70,9 @@
   </div>
 </section>
 
-<section class="mx-auto max-w-6xl px-4 py-6" aria-labelledby="productos-heading">
+<section class="mx-auto max-w-6xl px-4 py-5" aria-labelledby="productos-heading">
   <h2 id="productos-heading" class="text-2xl font-semibold text-heading">Productos</h2>
-  <div class="mt-4 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+  <div class="mt-3 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
     @for (product of products(); track product.slug) {
       <app-product-card [product]="product" />
     } @empty {
@@ -83,14 +80,19 @@
     }
   </div>
 
-  <div class="mt-6 flex items-center gap-3 rounded-xl border border-dashed border-border-subtle bg-surface-alt px-4 py-3">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-5 w-5 shrink-0 text-subtle" aria-hidden="true">
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        d="M12 4.5v15m7.5-7.5h-15"
-      />
+  <div
+    class="mt-4 flex items-center gap-3 rounded-xl border border-dashed border-border-subtle bg-surface-alt px-4 py-3"
+  >
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      class="h-5 w-5 shrink-0 text-subtle"
+      aria-hidden="true"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
     </svg>
-    <p class="text-sm text-muted">Seguimos sumando más productos de Estevez ERP a nuestro Academy.</p>
+    <p class="text-sm text-muted">Seguimos sumando más productos de Estevez a nuestro Academy.</p>
   </div>
 </section>
