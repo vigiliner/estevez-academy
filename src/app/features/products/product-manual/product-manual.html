@@ -60,30 +60,11 @@
                         [innerHTML]="paragraph | highlight: searchService.activeTerm()"
                       ></p>
                     }
-                    @if (step.screenshots?.length === 1) {
-                      <figure
-                        class="mx-auto mt-4 w-full max-w-2xl overflow-hidden rounded-lg border border-border bg-surface shadow-sm"
-                      >
-                        <button
-                          type="button"
-                          (click)="openLightbox(step.screenshots![0])"
-                          [attr.aria-label]="'Ampliar imagen: ' + step.screenshots![0].alt"
-                          class="block w-full cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-600"
-                        >
-                          <img
-                            [ngSrc]="step.screenshots![0].src"
-                            [width]="step.screenshots![0].width"
-                            [height]="step.screenshots![0].height"
-                            [alt]="step.screenshots![0].alt"
-                            class="h-auto w-full"
-                          />
-                        </button>
-                      </figure>
-                    } @else if (step.screenshots?.length) {
-                      <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    @if (step.screenshots?.length) {
+                      <div class="mt-4 space-y-4">
                         @for (shot of step.screenshots; track shot.src) {
                           <figure
-                            class="overflow-hidden rounded-lg border border-border bg-surface shadow-sm"
+                            class="mx-auto w-full max-w-2xl overflow-hidden rounded-lg border border-border bg-surface shadow-sm"
                           >
                             <button
                               type="button"
