@@ -45,7 +45,12 @@ const PRODUCTS: Product[] = [
         paragraphs: [
           'Desde el detalle de una unidad en el Mapa General se pueden enviar comandos directos al dispositivo GPS instalado en el vehículo:',
         ],
-        items: ['Desactivar unidad', 'Activar alarma', 'Solicitar posición', 'Reiniciar dispositivo'],
+        items: [
+          'Desactivar unidad',
+          'Activar alarma',
+          'Solicitar posición',
+          'Reiniciar dispositivo',
+        ],
       },
       {
         title: 'Panel de Super Administrador',
@@ -66,13 +71,26 @@ const PRODUCTS: Product[] = [
         paragraphs: [
           'Aplicación web (SPA) desplegada en Cloudflare Workers, con un backend/API propio que alimenta el frontend y recibe telemetría de los dispositivos GPS instalados en las unidades.',
         ],
+        screenshots: [
+          {
+            src: 'products/vigiliner/technical/arquitectura-general.png',
+            width: 1347,
+            height: 567,
+            alt: 'Diagrama comparativo de arquitectura: la actual (Angular 8, backend Express con Mongo para trazabilidad GPS y MySQL para datos generales, más un panel admin en Codeigniter) y la nueva propuesta (frontend React, backend as a service con Supabase sobre Postgres)',
+          },
+        ],
       },
       {
         title: 'Multi-tenancy y roles (RBAC)',
         paragraphs: [
           'El modelo de datos aísla la información por empresa (tenant): unidades, conductores y usuarios pertenecen a una sola empresa, salvo para el rol Super Admin, que tiene visión y gestión cross-tenant.',
         ],
-        items: ['super_admin (plataforma)', 'admin_empresa (por tenant)', 'monitorista (por tenant)', 'cliente_visualizacion (por tenant, solo lectura)'],
+        items: [
+          'super_admin (plataforma)',
+          'admin_empresa (por tenant)',
+          'monitorista (por tenant)',
+          'cliente_visualizacion (por tenant, solo lectura)',
+        ],
       },
       {
         title: 'Entidades de datos principales',

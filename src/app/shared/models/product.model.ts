@@ -4,6 +4,7 @@ export interface DocSection {
   readonly title: string;
   readonly paragraphs?: readonly string[];
   readonly items?: readonly string[];
+  readonly screenshots?: readonly ManualScreenshot[];
 }
 
 export interface ManualScreenshot {

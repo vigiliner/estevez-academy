@@ -29,14 +29,22 @@
     </header>
 
     <section class="mt-10" aria-labelledby="funcional-heading">
-      <h2 id="funcional-heading" class="text-xl font-semibold text-heading">Documentación funcional</h2>
+      <h2 id="funcional-heading" class="text-xl font-semibold text-heading">
+        Documentación funcional
+      </h2>
       @if (product.functionalDoc.length) {
         <div class="mt-4 space-y-6">
           @for (section of product.functionalDoc; track section.title) {
             <div [id]="sectionId('func', section.title)" class="scroll-mt-6">
-              <h3 class="text-base font-semibold text-heading" [innerHTML]="section.title | highlight: searchService.activeTerm()"></h3>
+              <h3
+                class="text-base font-semibold text-heading"
+                [innerHTML]="section.title | highlight: searchService.activeTerm()"
+              ></h3>
               @for (paragraph of section.paragraphs; track paragraph) {
-                <p class="mt-2 text-body" [innerHTML]="paragraph | highlight: searchService.activeTerm()"></p>
+                <p
+                  class="mt-2 text-body"
+                  [innerHTML]="paragraph | highlight: searchService.activeTerm()"
+                ></p>
               }
               @if (section.items?.length) {
                 <ul class="mt-2 list-disc space-y-1 pl-5 text-body">
@@ -45,12 +53,17 @@
                   }
                 </ul>
               }
+              <app-screenshot-block
+                [screenshots]="section.screenshots"
+                (opened)="openLightbox($event)"
+              />
             </div>
           }
         </div>
       } @else {
         <p class="mt-2 text-muted">
-          Contenido en preparación. Próximamente encontrarás aquí la guía paso a paso orientada a usuarios finales.
+          Contenido en preparación. Próximamente encontrarás aquí la guía paso a paso orientada a
+          usuarios finales.
         </p>
       }
     </section>
@@ -61,9 +74,15 @@
         <div class="mt-4 space-y-6">
           @for (section of product.technicalDoc; track section.title) {
             <div [id]="sectionId('tec', section.title)" class="scroll-mt-6">
-              <h3 class="text-base font-semibold text-heading" [innerHTML]="section.title | highlight: searchService.activeTerm()"></h3>
+              <h3
+                class="text-base font-semibold text-heading"
+                [innerHTML]="section.title | highlight: searchService.activeTerm()"
+              ></h3>
               @for (paragraph of section.paragraphs; track paragraph) {
-                <p class="mt-2 text-body" [innerHTML]="paragraph | highlight: searchService.activeTerm()"></p>
+                <p
+                  class="mt-2 text-body"
+                  [innerHTML]="paragraph | highlight: searchService.activeTerm()"
+                ></p>
               }
               @if (section.items?.length) {
                 <ul class="mt-2 list-disc space-y-1 pl-5 text-body">
@@ -72,16 +91,29 @@
                   }
                 </ul>
               }
+              <app-screenshot-block
+                [screenshots]="section.screenshots"
+                (opened)="openLightbox($event)"
+              />
             </div>
           }
         </div>
       } @else {
         <p class="mt-2 text-muted">
-          Contenido en preparación. Próximamente encontrarás aquí la guía paso a paso orientada al equipo técnico.
+          Contenido en preparación. Próximamente encontrarás aquí la guía paso a paso orientada al
+          equipo técnico.
         </p>
       }
     </section>
   </article>
+
+  @if (lightboxIndex() !== null) {
+    <app-image-lightbox
+      [images]="allScreenshots()"
+      [startIndex]="lightboxIndex()!"
+      (closed)="closeLightbox()"
+    />
+  }
 } @else {
   <div class="mx-auto max-w-3xl px-4 py-10">
     <p class="text-body">No encontramos el producto solicitado.</p>

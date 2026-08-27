@@ -60,33 +60,10 @@
                         [innerHTML]="paragraph | highlight: searchService.activeTerm()"
                       ></p>
                     }
-                    @if (step.screenshots; as screenshots) {
-                      @if (screenshots.length > 1) {
-                        <app-screenshot-carousel
-                          [screenshots]="screenshots"
-                          (opened)="openLightbox($event)"
-                        />
-                      } @else if (screenshots.length) {
-                        <figure
-                          class="mx-auto mt-4 w-full max-w-2xl overflow-hidden rounded-lg border border-border bg-surface shadow-sm"
-                        >
-                          <button
-                            type="button"
-                            (click)="openLightbox(screenshots[0])"
-                            [attr.aria-label]="'Ampliar imagen: ' + screenshots[0].alt"
-                            class="block w-full cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-600"
-                          >
-                            <img
-                              [ngSrc]="screenshots[0].src"
-                              [width]="screenshots[0].width"
-                              [height]="screenshots[0].height"
-                              [alt]="screenshots[0].alt"
-                              class="h-auto w-full"
-                            />
-                          </button>
-                        </figure>
-                      }
-                    }
+                    <app-screenshot-block
+                      [screenshots]="step.screenshots"
+                      (opened)="openLightbox($event)"
+                    />
                   </div>
                 }
               </div>
