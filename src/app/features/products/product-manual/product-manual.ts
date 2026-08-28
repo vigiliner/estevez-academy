@@ -18,6 +18,7 @@ import type { ManualScreenshot } from '../../../shared/models/product.model';
 import { ImageLightbox } from '../../../shared/ui/image-lightbox/image-lightbox';
 import { ProductNotFound } from '../../../shared/ui/product-not-found/product-not-found';
 import { ScreenshotBlock } from '../../../shared/ui/screenshot-block/screenshot-block';
+import { slugify } from '../../../shared/utils/slugify';
 import { buildProductSidebarItems } from '../data/product-sidebar';
 import { ProductsService } from '../data/products.service';
 
@@ -42,16 +43,25 @@ export class ProductManual {
     if (!product) {
       return [];
     }
-    return product.userManual.flatMap((role) =>
+    const commonShots = (product.manualCommonSteps ?? []).flatMap((step) => step.screenshots ?? []);
+    const roleShots = product.userManual.flatMap((role) =>
       role.steps.flatMap((step) => step.screenshots ?? []),
     );
+    const guideShots = (product.manualGuides ?? []).flatMap((guide) =>
+      guide.steps.flatMap((step) => (step.screenshot ? [step.screenshot] : [])),
+    );
+    return [...commonShots, ...roleShots, ...guideShots];
   });
 
   protected readonly lightboxIndex = signal<number | null>(null);
 
   private readonly sectionIds = computed(() => {
     const product = this.product();
-    return product ? product.userManual.map((role) => `rol-${role.id}`) : [];
+    if (!product) return [];
+    const commonIds = (product.manualCommonSteps ?? []).map((step) => `comun-${slugify(step.title)}`);
+    const roleIds = product.userManual.map((role) => `rol-${role.id}`);
+    const guideIds = (product.manualGuides ?? []).map((guide) => `guia-${guide.id}`);
+    return ['resumen', ...commonIds, ...roleIds, ...guideIds];
   });
 
   constructor() {
@@ -77,5 +87,9 @@ export class ProductManual {
 
   protected closeLightbox(): void {
     this.lightboxIndex.set(null);
+  }
+
+  protected commonAnchorId(title: string): string {
+    return `comun-${slugify(title)}`;
   }
 }

@@ -29,7 +29,78 @@
         </ul>
       </nav>
 
-      <div class="mt-10 space-y-16">
+      @if (product.manualOverview; as overview) {
+        <section id="resumen" class="mt-12 scroll-mt-6">
+          <h2 class="text-2xl font-bold text-heading">Matriz de capacidades</h2>
+          <p class="mt-2 text-body">Qué puede hacer cada rol en {{ product.name }}, de un vistazo.</p>
+          <div class="mt-5 overflow-x-auto rounded-lg border border-border">
+            <table class="w-full min-w-150 text-sm">
+              <thead class="bg-surface-alt">
+                <tr>
+                  <th scope="col" class="px-4 py-3 text-left font-semibold text-heading">Capacidad</th>
+                  @for (col of overview.roleColumns; track col) {
+                    <th scope="col" class="px-4 py-3 text-left font-semibold text-heading">{{ col }}</th>
+                  }
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-border-subtle bg-surface">
+                @for (row of overview.rows; track row.capability) {
+                  <tr>
+                    <th scope="row" class="px-4 py-3 text-left font-medium text-heading whitespace-nowrap">
+                      {{ row.capability }}
+                    </th>
+                    @for (value of row.values; track $index) {
+                      <td class="px-4 py-3 text-body">{{ value }}</td>
+                    }
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+      }
+
+      @if (product.manualCommonSteps?.length) {
+        <section class="mt-16">
+          <h2 class="text-2xl font-bold text-heading">Para todos los roles</h2>
+          <div class="mt-8 space-y-12">
+            @for (step of product.manualCommonSteps; track step.title) {
+              <div [id]="commonAnchorId(step.title)" class="scroll-mt-6">
+                <h3
+                  class="text-lg font-semibold text-heading"
+                  [innerHTML]="step.title | highlight: searchService.activeTerm()"
+                ></h3>
+                @for (paragraph of step.description; track paragraph) {
+                  <p
+                    class="mt-2 text-body"
+                    [innerHTML]="paragraph | highlight: searchService.activeTerm()"
+                  ></p>
+                }
+                @if (step.businessRules?.length) {
+                  <div class="mt-3 rounded-lg border-l-4 border-amber-400 bg-amber-50 p-3 dark:border-amber-600 dark:bg-amber-950">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-amber-800 dark:text-amber-300">
+                      Reglas de negocio
+                    </p>
+                    <ul class="mt-1.5 list-disc space-y-1 pl-5 text-sm text-amber-900 dark:text-amber-200">
+                      @for (rule of step.businessRules; track rule) {
+                        <li [innerHTML]="rule | highlight: searchService.activeTerm()"></li>
+                      }
+                    </ul>
+                  </div>
+                }
+                <app-screenshot-block [screenshots]="step.screenshots" (opened)="openLightbox($event)" />
+                @if (!step.screenshots?.length && step.pendingScreenshots) {
+                  <p class="mt-3 inline-flex items-center gap-1.5 rounded-full bg-surface-alt px-3 py-1 text-xs font-medium text-muted">
+                    Captura pendiente
+                  </p>
+                }
+              </div>
+            }
+          </div>
+        </section>
+      }
+
+      <div class="mt-16 space-y-16">
         @for (role of product.userManual; track role.id) {
           <section
             [id]="'rol-' + role.id"
@@ -60,10 +131,27 @@
                         [innerHTML]="paragraph | highlight: searchService.activeTerm()"
                       ></p>
                     }
+                    @if (step.businessRules?.length) {
+                      <div class="mt-3 rounded-lg border-l-4 border-amber-400 bg-amber-50 p-3 dark:border-amber-600 dark:bg-amber-950">
+                        <p class="text-xs font-semibold uppercase tracking-wide text-amber-800 dark:text-amber-300">
+                          Reglas de negocio
+                        </p>
+                        <ul class="mt-1.5 list-disc space-y-1 pl-5 text-sm text-amber-900 dark:text-amber-200">
+                          @for (rule of step.businessRules; track rule) {
+                            <li [innerHTML]="rule | highlight: searchService.activeTerm()"></li>
+                          }
+                        </ul>
+                      </div>
+                    }
                     <app-screenshot-block
                       [screenshots]="step.screenshots"
                       (opened)="openLightbox($event)"
                     />
+                    @if (!step.screenshots?.length && step.pendingScreenshots) {
+                      <p class="mt-3 inline-flex items-center gap-1.5 rounded-full bg-surface-alt px-3 py-1 text-xs font-medium text-muted">
+                        Captura pendiente
+                      </p>
+                    }
                   </div>
                 }
               </div>
@@ -75,6 +163,51 @@
           </section>
         }
       </div>
+
+      @if (product.manualGuides?.length) {
+        <section class="mt-16">
+          <h2 class="text-2xl font-bold text-heading">Guías paso a paso</h2>
+          <p class="mt-2 text-body">Cómo registrar los elementos más comunes, con capturas de cada paso.</p>
+          <div class="mt-8 space-y-16">
+            @for (guide of product.manualGuides; track guide.id) {
+              <div [id]="'guia-' + guide.id" class="scroll-mt-6">
+                <h3
+                  class="text-xl font-semibold text-heading"
+                  [innerHTML]="guide.title | highlight: searchService.activeTerm()"
+                ></h3>
+                <p class="mt-1 text-sm font-medium text-accent">{{ guide.role }}</p>
+                <p
+                  class="mt-2 text-body"
+                  [innerHTML]="guide.summary | highlight: searchService.activeTerm()"
+                ></p>
+
+                <ol class="mt-6 space-y-8 border-l border-border pl-6">
+                  @for (step of guide.steps; track $index) {
+                    <li class="relative">
+                      <span
+                        class="absolute -left-9 top-0 flex h-6 w-6 items-center justify-center rounded-full bg-blue-600 text-xs font-bold text-white"
+                      >
+                        {{ $index + 1 }}
+                      </span>
+                      <h4
+                        class="font-semibold text-heading"
+                        [innerHTML]="step.title | highlight: searchService.activeTerm()"
+                      ></h4>
+                      <p
+                        class="mt-1.5 text-body"
+                        [innerHTML]="step.description | highlight: searchService.activeTerm()"
+                      ></p>
+                      @if (step.screenshot; as shot) {
+                        <app-screenshot-block [screenshots]="[shot]" (opened)="openLightbox($event)" />
+                      }
+                    </li>
+                  }
+                </ol>
+              </div>
+            }
+          </div>
+        </section>
+      }
     } @else {
       <p class="mt-8 text-muted">El manual de usuario de este producto está en preparación.</p>
     }

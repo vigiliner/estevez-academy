@@ -45,15 +45,38 @@ export function buildProductSidebarItems(product: Product): SidebarItem[] {
   }
 
   if (product.userManual.length) {
-    items.push({
-      label: 'Manual de usuario',
-      icon: 'users',
-      children: product.userManual.map((role) => ({
+    const manualLink = [...detailLink, 'manual'];
+    const children: SidebarItem[] = [{ label: 'Matriz de capacidades', routerLink: manualLink, fragment: 'resumen' }];
+
+    if (product.manualCommonSteps?.length) {
+      children.push(
+        ...product.manualCommonSteps.map((step) => ({
+          label: step.title,
+          routerLink: manualLink,
+          fragment: `comun-${slugify(step.title)}`,
+        })),
+      );
+    }
+
+    children.push(
+      ...product.userManual.map((role) => ({
         label: role.name,
-        routerLink: [...detailLink, 'manual'],
+        routerLink: manualLink,
         fragment: `rol-${role.id}`,
       })),
-    });
+    );
+
+    if (product.manualGuides?.length) {
+      children.push(
+        ...product.manualGuides.map((guide) => ({
+          label: guide.title,
+          routerLink: manualLink,
+          fragment: `guia-${guide.id}`,
+        })),
+      );
+    }
+
+    items.push({ label: 'Manual de usuario', icon: 'users', children });
   }
 
   return items;

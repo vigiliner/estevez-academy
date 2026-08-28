@@ -27,6 +27,10 @@ export interface ManualStep {
   readonly title: string;
   readonly description: readonly string[];
   readonly screenshots?: readonly ManualScreenshot[];
+  /** Reglas de negocio o comportamientos no obvios de este módulo, resaltados aparte de la descripción. */
+  readonly businessRules?: readonly string[];
+  /** true si el módulo cambió recientemente y las capturas todavía no reflejan el estado exacto. */
+  readonly pendingScreenshots?: boolean;
 }
 
 export interface ManualRole {
@@ -34,6 +38,31 @@ export interface ManualRole {
   readonly name: string;
   readonly summary: string;
   readonly steps: readonly ManualStep[];
+}
+
+export interface ManualCapabilityRow {
+  readonly capability: string;
+  /** Un valor por cada entrada de `ManualOverview.roleColumns`, en el mismo orden. */
+  readonly values: readonly string[];
+}
+
+export interface ManualOverview {
+  readonly roleColumns: readonly string[];
+  readonly rows: readonly ManualCapabilityRow[];
+}
+
+export interface ManualGuideStep {
+  readonly title: string;
+  readonly description: string;
+  readonly screenshot?: ManualScreenshot;
+}
+
+export interface ManualGuide {
+  readonly id: string;
+  readonly title: string;
+  readonly role: string;
+  readonly summary: string;
+  readonly steps: readonly ManualGuideStep[];
 }
 
 export interface Product {
@@ -48,6 +77,11 @@ export interface Product {
   readonly functionalDoc: readonly DocSection[];
   readonly technicalDoc: readonly DocSection[];
   readonly userManual: readonly ManualRole[];
+  readonly manualOverview?: ManualOverview;
+  /** Pasos válidos para cualquier rol autenticado (ej. "Mi perfil"), mostrados antes de las secciones por rol. */
+  readonly manualCommonSteps?: readonly ManualStep[];
+  /** Guías paso a paso de alta/registro (crear unidad, usuario, etc.), transversales a los roles. */
+  readonly manualGuides?: readonly ManualGuide[];
 }
 
 export const PRODUCT_STATUS_LABELS: Record<ProductStatus, string> = {

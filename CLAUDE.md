@@ -10,12 +10,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Actualmente es el único producto documentado en la Academy. Es una plataforma SaaS de rastreo GPS de flotillas vehiculares, multi-tenant (multi-empresa), con mapa en tiempo real, comandos remotos a dispositivos GPS (ej. Queclink GV55W) y control de acceso por rol: Super Administrador (cross-tenant), Admin de empresa, Monitorista, Cliente (solo visualización).
 
-Módulos de Vigiliner: Dashboard, Mapa General/Global, Unidades, Conductores, Usuarios, Geocercas, Incidencias, Alertas, Reportes, más un panel Super Admin (Empresas, dispositivos GPS, inventario SIM).
+Módulos de Vigiliner: Dashboard, Mapa General/Global, Unidades, Conductores (internos/externos), Usuarios, Geocercas, Incidencias, Alertas, Reportes (velocidad y detención, historial de comandos), más un panel Super Admin (Empresas, dispositivos GPS, inventario SIM, Configuración/catálogos). Un usuario o unidad puede asociarse a más de una empresa (multi-empresa / empresa operadora).
 
 Estado MVP de Vigiliner (a la fecha del último relevamiento):
-- Completo: auth, dashboard, mapa, unidades, conductores, usuarios/roles, panel super admin.
-- Parcial: Geocercas, Incidencias/Alertas (solo UI, sin datos de prueba).
-- Pendiente: Reportes.
+- Completo: auth, dashboard, mapa, unidades, conductores, usuarios/roles, geocercas (editor de polígonos), incidencias/alertas, reportes, panel super admin.
+- Parcial: soporte multi-empresa y empresa operadora (recién incorporado).
 
 ## Comandos
 
